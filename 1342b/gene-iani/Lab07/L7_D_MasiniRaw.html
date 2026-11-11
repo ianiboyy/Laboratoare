@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare "bruta"</title>
+	<script>
+// "masina" JS
+function loadMjs(){
+document.getElementById("mjs").innerHTML = 
+"<ul>"+
+"<li>Tip:  Dacia</li>" +
+"<li>Model:  Logan</li>" +
+"<li>Culoare:  verde</li>" +
+"</ul>";
+}
+// "masina" LS
+function loadMls(){
+	if(localStorage.tip){
+		var tL = localStorage.tip;}
+	else{
+		var tL = prompt("Tip");
+		localStorage.tip = tL;
+	}
+	if(localStorage.model){
+		var mL = localStorage.model;
+	
+		}
+	else{
+		var mL = prompt("Model");
+		localStorage.model = mL;
+	}
+	if(localStorage.culoare){
+		var cL = localStorage.culoare;}
+	else{
+		var cL = prompt("Culoare:");
+		localStorage.culoare = cL;
+	}
+document.getElementById("mls").innerHTML = 
+"<ul>"+
+"<li>Tip: " + tL +"</li>" +
+"<li>Model: "  + mL +"</li>" +
+"<li>Culoare: "  + cL + "</li>" +
+"</ul>";
+}
+// "masina" SS
+function loadMss(){
+if(sessionStorage.tip){
+var tS = sessionStorage.tip;}
+else{
+var tS = prompt("Tip");
+sessionStorage.tip = tS;
+}
+if(sessionStorage.model){
+var mS = sessionStorage.model;}
+else{
+var mS = prompt("Model");
+sessionStorage.model = mS;
+}
+if(sessionStorage.culoare){
+var cS = sessionStorage.culoare;}
+else{
+var cS = prompt("Culoare:");
+sessionStorage.culoare = cS;
+}
+document.getElementById("mss").innerHTML = 
+"<ul>"+
+"<li>Tip: " + tS +"</li>" +
+"<li>Model: "  + mS +"</li>" +
+"<li>Culoare: "  + cS + "</li>" +
+"</ul>";
+}
+</script>
+</head>
+<body>
+<div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+<p>Masina JavaScript</p>
+	<div id="mjs"></div>
+	</div>
+
+<div style="background-color:ForestGreen;color:white;font-size:200%" onclick="loadMls()">
+	<p>Masina Local Storage</p>
+	<div id="mls"></div>
+	</div>
+
+<div style="background-color:SeaGreen;color:white;font-size:200%"  onclick="loadMss()">
+	<p>Masina Session Storage</p>
+	<div id="mss"></div>
+	</div>
+
+</body>
+</html>
