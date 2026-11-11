@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Ceva</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            margin: 40px;
+        }
+        h1 {
+            cursor: pointer;
+            color: black;
+        }
+        p {
+            cursor: pointer;
+            background-color: transparent;
+            line-height: 1.6;
+            padding: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="titlu"> Titlul Mare</h1>
+
+<p id="paragraf">
+L1<br>
+L2<br>
+L3
+</p>
+
+<script>
+
+function CuloareValida(culori){
+    const c = new Option().style;
+    c.color = culori;
+    return c.color !== '';
+
+}
+
+document.getElementById('titlu').addEventListener('click',function(){
+   let culori2 = prompt("Introduceti culoare pt TITLU");
+
+    if (culori2 !== null && culori2.trim() !== ""){
+        culori2 = culori2.trim();
+        if (CuloareValida(culori2)){
+            this.style.color = culori2;
+
+        }
+        else{
+            alert("culoare gresita")
+        }
+    }
+
+});
+
+document.getElementById('paragraf').addEventListener('click',function(){
+   let culori3 = prompt("Introduceti culoare pt PARAGRAF");
+
+    if (culori3 !== null && culori3.trim() !== ""){
+        culori3 = culori3.trim();
+        if (CuloareValida(culori3)){
+            this.style.color = culori3;
+
+        }
+        else{
+            alert("culoare gresita")
+        }
+    }
+
+});
+
+</script>
+
+</body>
+</html>

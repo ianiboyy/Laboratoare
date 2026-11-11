@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ro">
+	
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare cu folosirea de obiecte</title>
+    <script>
+        // "masina" JS 
+        function loadMjs(){
+            var mJS = {tip : "Dacia", model : "Logan", culoare : "verde", anFab : 2012};
+            document.getElementById("mjs").innerHTML = 
+            "<ul>"+
+            "<li>Tip: " + mJS.tip +"</li>" +
+            "<li>Model: "  + mJS.model +"</li>" +
+            "<li>Culoare: "  + mJS.culoare + "</li>" +
+            "<li>An fabricatie: "  + mJS.anFab + "</li>" +
+            "</ul>";
+        }
+
+        
+        function afiseaza(depozit, idDiv) {
+            if (depozit.masina) {
+                var masinaObiect = JSON.parse(depozit.masina);
+                document.getElementById(idDiv).innerHTML = 
+                "<ul>"+
+                "<li>Tip:" + masinaObiect.tip +"</li>" +
+                "<li>Model:"  + masinaObiect.model +"</li>" +
+                "<li>Culoare:"  + masinaObiect.culoare + "</li>" +
+                "<li>An: "  + masinaObiect.anFab + "</li>" +
+                "</ul>";
+            } else {
+                document.getElementById(idDiv).innerHTML = "<p>Nicio masina salvata</p>";
+            }
+        }
+
+        function sterge(depozit, idDiv) {
+            depozit.removeItem("masina");
+            afiseaza(depozit, idDiv);
+        }
+
+        // MLS
+        function salveazaMls() {
+            var masinaL = {
+                tip: document.getElementById("tipL").value,
+                model: document.getElementById("modelL").value,
+                culoare: document.getElementById("culoareL").value,
+                anFab: document.getElementById("anL").value
+            };
+            
+            localStorage.setItem("masina", JSON.stringify(masinaL));
+            
+            afiseaza(localStorage, "mls");
+            
+        }
+
+		// MSS
+        function salveazaMss() {
+            var masinaS = {
+                tip: document.getElementById("tipS").value,
+                model: document.getElementById("modelS").value,
+                culoare: document.getElementById("culoareS").value,
+                anFab: document.getElementById("anS").value
+            };
+            
+            sessionStorage.setItem("masina", JSON.stringify(masinaS));
+            
+            afiseaza(sessionStorage, "mss");
+            
+        }
+
+		function incarcaDatele() {
+            afiseaza(localStorage, "mls");
+            afiseaza(sessionStorage, "mss");
+        }
+
+    </script>
+
+</head>
+
+
+
+<body onload="incarcaDatele()">
+
+    <div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+        <p>Masina JavaScript</p>
+        <div id="mjs"></div>
+    </div>
+
+    <div style="background-color:ForestGreen;color:white;font-size:200%">
+        <p>Masina Local Storage</p>
+        <form onsubmit="return salveazaMls()"> 
+            <label>Tip <input id="tipL" required></label> 
+            <label>Model <input id="modelL" required></label> 
+            <label>Culoare <input id="culoareL" required></label> 
+            <label>An <input id="anL" type="number" required></label> 
+            <button type="submit">Salvează</button> 
+            <button type="button" onclick="sterge(localStorage, 'mls')">Sterge</button>
+        </form> 
+        <div id="mls"></div>
+    </div>
+
+    <div style="background-color:SeaGreen;color:white;font-size:200%">
+        <p>Masina Session Storage</p>
+        <form onsubmit="return salveazaMss()"> 
+            <label>Tip <input id="tipS" required></label> 
+            <label>Model <input id="modelS" required></label> 
+            <label>Culoare <input id="culoareS" required></label> 
+            <label>An <input id="anS" type="number" required></label> 
+            <button type="submit">Salvează</button> 
+            <button type="button" onclick="sterge(sessionStorage, 'mss')">Sterge</button>
+        </form> 
+        <div id="mss"></div>
+    </div>
+
+</body>
+</html>

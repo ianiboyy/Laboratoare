@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Garaj Auto</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        form { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; width: 300px; background: #f9f9f9; }
+        label { display: block; margin-top: 10px; }
+        input { padding: 5px; width: 90%; margin-top: 5px; }
+        button { padding: 6px 12px; margin-top: 15px; cursor: pointer; }
+        table { width: 100%; max-width: 600px; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .counter { font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Gestionare Garaj Auto</h1>
+
+    <!-- Formularul pentru adăugare mașini -->
+    <form id="carForm">
+        <h3>Adaugă o mașină nouă</h3>
+        <label for="marca">Marcă:</label>
+        <input type="text" id="marca" required>
+
+        <label for="model">Model:</label>
+        <input type="text" id="model" required>
+
+        <label for="an">An fabricație:</label>
+        <input type="number" id="an" required>
+
+        <button type="submit">Adaugă în Garaj</button>
+    </form>
+
+    <!-- Numărul de mașini -->
+    <div class="counter" id="carCounter">Număr mașini în garaj: 0</div>
+
+    <!-- Tabelul cu mașini -->
+    <table id="carTable">
+        <thead>
+            <tr>
+                <th>Marcă</th>
+                <th>Model</th>
+                <th>An</th>
+                <th>Acțiune</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rândurile vor fi generate dinamic prin JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const carForm = document.getElementById('carForm');
+            const carTableBody = document.querySelector('#carTable tbody');
+            const carCounter = document.getElementById('carCounter');
+
+            // Preluarea mașinilor din Local Storage
+            function getGaraj() {
+                const data = localStorage.getItem('garaj');
+                return data ? JSON.parse(data) : [];
+            }
+
+            // Salvarea mașinilor în Local Storage
+            function saveGaraj(garaj) {
+                localStorage.setItem('garaj', JSON.stringify(garaj));
+            }
+
+            // Rerandarea tabelului și a numărătorului
+            function renderGaraj() {
+                const garaj = getGaraj();
+                carTableBody.innerHTML = '';
+
+                garaj.forEach((car, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${car.marca}</td>
+                        <td>${car.model}</td>
+                        <td>${car.an}</td>
+                        <td><button onclick="deleteCar(${index})">Șterge</button></td>
+                    `;
+                    carTableBody.appendChild(row);
+                });
+
+                carCounter.textContent = `Număr mașini în garaj: ${garaj.length}`;
+            }
+
+            // Gestionarea trimiterii formularului
+            carForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const marca = document.getElementById('marca').value;
+                const model = document.getElementById('model').value;
+                const an = document.getElementById('an').value;
+
+                const garaj = getGaraj();
+                garaj.push({ marca, model, an });
+                saveGaraj(garaj);
+
+                renderGaraj();
+                carForm.reset();
+            });
+
+            // Funcția globală pentru ștergerea unei mașini
+            window.deleteCar = function(index) {
+                const garaj = getGaraj();
+                garaj.splice(index, 1);
+                saveGaraj(garaj);
+                renderGaraj();
+            };
+
+            // Afișarea inițială la încărcarea paginii
+            renderGaraj();
+        });
+    </script>
+
+</body>
+</html>

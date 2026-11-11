@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare "bruta"</title>
+	<script>
+// "masina" JS
+function loadMjs(){
+document.getElementById("mjs").innerHTML =
+"<ul>"+
+"<li>Tip:  Dacia</li>" +
+"<li>Model:  Logan</li>" +
+"<li>Culoare:  verde</li>" +
+"</ul>";
+}
+
+// afisarea masinii salvate intr-un depozit (localStorage sau sessionStorage)
+function afiseaza(depozit, idSectiune){
+	if(depozit.getItem("tip")){
+		document.getElementById(idSectiune).innerHTML =
+		"<ul>"+
+		"<li>Tip: " + depozit.getItem("tip") + "</li>" +
+		"<li>Model: " + depozit.getItem("model") + "</li>" +
+		"<li>Culoare: " + depozit.getItem("culoare") + "</li>" +
+		"</ul>";
+	}
+	else{
+		document.getElementById(idSectiune).innerHTML = "Nicio mașină salvată";
+	}
+}
+
+function sterge(depozit, idSectiune){
+	depozit.removeItem("tip");
+	depozit.removeItem("model");
+	depozit.removeItem("culoare");
+	afiseaza(depozit, idSectiune);
+}
+
+// "masina" LS
+function salveazaMls(){
+	localStorage.setItem("tip", document.getElementById("tipL").value);
+	localStorage.setItem("model", document.getElementById("modelL").value);
+	localStorage.setItem("culoare", document.getElementById("culoareL").value);
+	afiseaza(localStorage, "mls");
+	return false;
+}
+
+// "masina" SS
+function salveazaMss(){
+	sessionStorage.setItem("tip", document.getElementById("tipS").value);
+	sessionStorage.setItem("model", document.getElementById("modelS").value);
+	sessionStorage.setItem("culoare", document.getElementById("culoareS").value);
+	afiseaza(sessionStorage, "mss");
+	return false;
+}
+
+function incarca(){
+	afiseaza(localStorage, "mls");
+	afiseaza(sessionStorage, "mss");
+}
+</script>
+</head>
+<body onload="incarca()">
+<div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+<p>Masina JavaScript</p>
+	<div id="mjs"></div>
+	</div>
+
+<div style="background-color:ForestGreen;color:white;font-size:200%">
+	<p>Masina Local Storage</p>
+	<form onsubmit="return salveazaMls()">
+		<label for="tipL">Tip</label> <input id="tipL" required>
+		<label for="modelL">Model</label> <input id="modelL" required>
+		<label for="culoareL">Culoare</label> <input id="culoareL" required>
+		<button type="submit">Salvează</button>
+		<button type="button" onclick="sterge(localStorage, 'mls')">Șterge</button>
+	</form>
+	<div id="mls"></div>
+	</div>
+
+<div style="background-color:SeaGreen;color:white;font-size:200%">
+	<p>Masina Session Storage</p>
+	<form onsubmit="return salveazaMss()">
+		<label for="tipS">Tip</label> <input id="tipS" required>
+		<label for="modelS">Model</label> <input id="modelS" required>
+		<label for="culoareS">Culoare</label> <input id="culoareS" required>
+		<button type="submit">Salvează</button>
+		<button type="button" onclick="sterge(sessionStorage, 'mss')">Șterge</button>
+	</form>
+	<div id="mss"></div>
+	</div>
+
+</body>
+</html>

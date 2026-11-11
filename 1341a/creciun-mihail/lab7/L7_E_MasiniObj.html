@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare cu folosirea de obiecte"</title>
+	<script>
+// "masina" JS
+function loadMjs(){
+var mJS = {tip : "Dacia", model : "Logan", culoare : "verde", anFab : 2012};
+document.getElementById("mjs").innerHTML = 
+"<ul>"+
+"<li>Tip: " + mJS.tip +"</li>" +
+"<li>Model: "  + mJS.model +"</li>" +
+"<li>Culoare: "  + mJS.culoare + "</li>" +
+"<li>An fabricatie: "  + mJS.anFab + "</li>" +
+"</ul>";
+}
+// "masina" LS
+function loadMls(){
+	afiseaza(localStorage, "mls");
+}
+// "masina" SS
+function loadMss(){
+	afiseaza(sessionStorage, "mss");
+}
+
+function salveaza(event, depozit, id){
+	event.preventDefault();
+	var formular = event.currentTarget;
+	var masina = {
+		tip: formular.elements.tip.value,
+		model: formular.elements.model.value,
+		culoare: formular.elements.culoare.value,
+		anFab: Number(formular.elements.anFab.value)
+	};
+	depozit.setItem("masina", JSON.stringify(masina));
+	afiseaza(depozit, id);
+}
+
+function afiseaza(depozit, id){
+	var container = document.getElementById(id);
+	container.replaceChildren();
+	var dateMasina = depozit.getItem("masina");
+	if(!dateMasina){
+		return;
+	}
+
+	var masina = JSON.parse(dateMasina);
+	var lista = document.createElement("ul");
+	[
+		["Tip", masina.tip],
+		["Model", masina.model],
+		["Culoare", masina.culoare],
+		["An fabricatie", masina.anFab]
+	].forEach(function(camp){
+		var element = document.createElement("li");
+		element.textContent = camp[0] + ": " + camp[1];
+		lista.appendChild(element);
+	});
+	container.appendChild(lista);
+}
+
+function sterge(depozit, id){
+	depozit.removeItem("masina");
+	afiseaza(depozit, id);
+}
+</script>
+</head>
+<body>
+<div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+<p>Masina JavaScript</p>
+	<div id="mjs"></div>
+	</div>
+
+<div style="background-color:ForestGreen;color:white;font-size:200%">
+	<p>Masina Local Storage</p>
+	<form onsubmit="salveaza(event, localStorage, 'mls')">
+		<label>Tip: <input name="tip" required></label>
+		<label>Model: <input name="model" required></label>
+		<label>Culoare: <input name="culoare" required></label>
+		<label>An de fabricație: <input name="anFab" type="number" step="1" required></label>
+		<button type="submit">Salveaza</button>
+		<button type="button" onclick="sterge(localStorage, 'mls')">Sterge</button>
+	</form>
+	<div id="mls"></div>
+</div>
+
+<div style="background-color:SeaGreen;color:white;font-size:200%">
+	<p>Masina Session Storage</p>
+	<form onsubmit="salveaza(event, sessionStorage, 'mss')">
+		<label>Tip: <input name="tip" required></label>
+		<label>Model: <input name="model" required></label>
+		<label>Culoare: <input name="culoare" required></label>
+		<label>An de fabricație: <input name="anFab" type="number" step="1" required></label>
+		<button type="submit">Salveaza</button>
+		<button type="button" onclick="sterge(sessionStorage, 'mss')">Sterge</button>
+	</form>
+	<div id="mss"></div>
+</div>
+
+<script>
+loadMls();
+loadMss();
+</script>
+</body>
+</html>

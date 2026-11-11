@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>L6_B</title>
+<style>
+    button{
+        background-color:blue;
+        color:white;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    #p1{
+        color: red;
+        font-size: 20px;
+    }
+
+    #p2{
+        color: green;
+        font: 15px;
+    }
+</style>
+
+</head>
+
+<body>
+
+<button onclick="schimba()">Schimba</button>
+<p id="p1" onclick="modifica(this)">Primul paragraf</p>
+<p id="p2" onclick="modifica(this)">Al 2 lea paragraf</p>
+
+
+
+
+</body>
+
+<script>
+
+function modifica(p) {
+    let text = prompt("Text nou","Implicit");
+    if(text != NULL) {
+        p.innerHTML = text;
+    }
+}
+
+function schimba() {
+    let a = document.getElementById("p1");
+    let b = document.getElementById("p2");
+
+    let aux = a.innerHTML;
+    a.innerHTML = b.innerHTML;
+    b.innerHTML = aux;
+}
+</script>
+
+</body>
+</html>

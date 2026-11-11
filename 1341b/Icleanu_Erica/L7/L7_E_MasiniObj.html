@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare cu obiecte și funcții generalizate</title>
+    <script>
+       
+        function loadMjs(){
+            var mJS = {tip : "Dacia", model : "Logan", culoare : "verde", anFab : 2012};
+            document.getElementById("mjs").innerHTML = 
+            "<ul>"+
+            "<li>Tip: " + mJS.tip +"</li>" +
+            "<li>Model: " + mJS.model +"</li>" +
+            "<li>Culoare: " + mJS.culoare + "</li>" +
+            "<li>An fabricatie: " + mJS.anFab + "</li>" +
+            "</ul>";
+        }
+
+       
+        function init() {
+            afiseazaMasina(localStorage, "mls");
+            afiseazaMasina(sessionStorage, "mss");
+        }
+
+        
+        function afiseazaMasina(depozit, idDiv) {
+            var divDestinatie = document.getElementById(idDiv);
+            
+            if (depozit.masina) {
+                var masinaObj = JSON.parse(depozit.masina);
+                
+                divDestinatie.innerHTML = 
+                    "<ul>" +
+                    "<li>Tip: " + masinaObj.tip + "</li>" +
+                    "<li>Model: " + masinaObj.model + "</li>" +
+                    "<li>Culoare: " + masinaObj.culoare + "</li>" +
+                    "<li>An fabricatie: " + masinaObj.anFab + "</li>" +
+                    "</ul>";
+            } else {
+                divDestinatie.innerHTML = "<p>Nicio mașină salvată</p>";
+            }
+        }
+
+        
+        function salveazaMasina(depozit, idForm, idT, idM, idC, idA, idDiv) {
+            var masinaObj = {
+                tip: document.getElementById(idT).value,
+                model: document.getElementById(idM).value,
+                culoare: document.getElementById(idC).value,
+                anFab: Number(document.getElementById(idA).value)
+            };
+
+            
+            depozit.setItem("masina", JSON.stringify(masinaObj));
+
+          
+            afiseazaMasina(depozit, idDiv);
+
+            return false; 
+        }
+
+       
+        function stergeMasina(depozit, idForm, idDiv) {
+            depozit.removeItem("masina");
+            document.getElementById(idForm).reset();
+            afiseazaMasina(depozit, idDiv);
+        }
+    </script>
+</head>
+<body onload="init()">
+
+    
+    <div style="background-color:LimeGreen;color:white;font-size:150%;padding:20px;margin-bottom:10px;" onclick="loadMjs()">
+        <p>Masina JavaScript</p>
+        <div id="mjs"></div>
+    </div>
+
+   
+    <div style="background-color:ForestGreen;color:white;font-size:150%;padding:20px;margin-bottom:10px;">
+        <p>Masina Local Storage</p>
+        
+        <form id="formL" onsubmit="return salveazaMasina(localStorage, 'formL', 'tipL', 'modelL', 'culoareL', 'anL', 'mls')">
+            <div>
+                <label for="tipL">Tip:</label>
+                <input type="text" id="tipL" required>
+            </div>
+            <div style="margin-top:5px;">
+                <label for="modelL">Model:</label>
+                <input type="text" id="modelL" required>
+            </div>
+            <div style="margin-top:5px;">
+                <label for="culoareL">Culoare:</label>
+                <input type="text" id="culoareL" required>
+            </div>
+            <div style="margin-top:5px;">
+                <label for="anL">An fabricație:</label>
+                <input type="number" id="anL" required>
+            </div>
+            <div style="margin-top:10px;">
+                <button type="submit">Salvează</button>
+                <button type="button" onclick="stergeMasina(localStorage, 'formL', 'mls')">Șterge</button>
+            </div>
+        </form>
+
+        <div id="mls"></div>
+    </div>
+
+    
+    <div style="background-color:SeaGreen;color:white;font-size:150%;padding:20px;">
+        <p>Masina Session Storage</p>
+        
+        <form id="formS" onsubmit="return salveazaMasina(sessionStorage, 'formS', 'tipS', 'modelS', 'culoareS', 'anS', 'mss')">
+            <div>
+                <label for="tipS">Tip:</label>
+                <input type="text" id="tipS" required>
+            </div>
+            <div style="margin-top:5px;">
+                <label for="modelS">Model:</label>
+                <input type="text" id="modelS" required>
+            </div>
+            <div style="margin-top:5px;">
+                <label for="culoareS">Culoare:</label>
+                <input type="text" id="culoareS" required>
+            </div>
+            <div style="margin-top:5px;">
+                <label for="anS">An fabricație:</label>
+                <input type="number" id="anS" required>
+            </div>
+            <div style="margin-top:10px;">
+                <button type="submit">Salvează</button>
+                <button type="button" onclick="stergeMasina(sessionStorage, 'formS', 'mss')">Șterge</button>
+            </div>
+        </form>
+
+        <div id="mss"></div>
+    </div>
+
+</body>
+</html>

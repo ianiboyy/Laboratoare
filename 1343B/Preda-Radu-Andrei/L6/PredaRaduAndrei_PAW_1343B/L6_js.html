@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Document creat cu JavaScript</title>
+</head>
+<body>
+    <script>
+	
+    const titlu = document.createElement('h1');
+    titlu.textContent = "Titlu";
+    titlu.style.color = "blue";
+    document.body.appendChild(titlu);
+
+    const paragraff = document.createElement('p');
+    paragraff.innerHTML = "ceva <br>altceva <br> ceva2" ;
+    paragraff.style.backgroundColor = "yellow";
+    document.body.appendChild(paragraff)
+	</script>
+</body>
+</html>

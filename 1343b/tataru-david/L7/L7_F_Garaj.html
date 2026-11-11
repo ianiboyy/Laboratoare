@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj - Array in LocalStorage</title>
+    <style>
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+    </style>
+    <script>
+        function afiseazaGaraj() {
+            var garajText = localStorage.getItem("garaj");
+            var lista = garajText ? JSON.parse(garajText) : [];
+            
+            document.getElementById("numarMasini").innerHTML = "Masini in garaj: " + lista.length;
+
+            var tabelHTML = "<table><tr><th>Tip</th><th>Model</th><th>Actiune</th></tr>";
+            for (var i = 0; i < lista.length; i++) {
+                tabelHTML += "<tr>" +
+                             "<td>" + lista[i].tip + "</td>" +
+                             "<td>" + lista[i].model + "</td>" +
+                             "<td><button onclick='stergeDinGaraj(" + i + ")'>Sterge</button></td>" +
+                             "</tr>";
+            }
+            tabelHTML += "</table>";
+            document.getElementById("afisajGaraj").innerHTML = tabelHTML;
+        }
+
+        function adaugaInGaraj() {
+            var masinaNoua = {
+                tip: document.getElementById("tip").value,
+                model: document.getElementById("model").value
+            };
+
+            var garajText = localStorage.getItem("garaj");
+            var lista = garajText ? JSON.parse(garajText) : [];
+            
+            lista.push(masinaNoua);
+            localStorage.setItem("garaj", JSON.stringify(lista));
+            
+            afiseazaGaraj();
+            return false;
+        }
+
+        function stergeDinGaraj(index) {
+            var lista = JSON.parse(localStorage.getItem("garaj"));
+            lista.splice(index, 1);
+            localStorage.setItem("garaj", JSON.stringify(lista));
+            afiseazaGaraj();
+        }
+    </script>
+</head>
+<body onload="afiseazaGaraj()">
+
+    <h1>Adauga masina in Garaj</h1>
+    <form onsubmit="return adaugaInGaraj()">
+        <label>Tip:</label> <input id="tip" required>
+        <label>Model:</label> <input id="model" required>
+        <button type="submit">Adauga</button>
+    </form>
+    
+    <p id="numarMasini"></p>
+    <div id="afisajGaraj"></div>
+
+</body>
+</html>

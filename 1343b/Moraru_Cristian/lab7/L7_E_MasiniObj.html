@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare cu folosirea de obiecte"</title>
+    <script>
+// "masina" JS
+function loadMjs(){
+var mJS = {tip : "Dacia", model : "Logan", culoare : "verde", anFab : 2012};
+document.getElementById("mjs").innerHTML = 
+"<ul>"+
+"<li>Tip: " + mJS.tip +"</li>" +
+"<li>Model: "  + mJS.model +"</li>" +
+"<li>Culoare: "  + mJS.culoare + "</li>" +
+"<li>An fabricatie: "  + mJS.anFab + "</li>" +
+"</ul>";
+}
+
+// Afisare masina
+function afiseaza(depozit, id){
+    if(depozit.masina){
+        var masinaL = JSON.parse(depozit.masina);
+        document.getElementById(id).innerHTML = 
+        "<ul>"+
+        "<li>Tip: " + masinaL.tip +"</li>" +
+        "<li>Model: "  + masinaL.model +"</li>" +
+        "<li>Culoare: "  + masinaL.culoare + "</li>" +
+        "<li>An fabricatie: "  + masinaL.anFab + "</li>" +
+        "</ul>";
+    }
+    else{
+        document.getElementById(id).innerHTML = "Nicio mașină salvată";
+    }
+}
+
+// "masina" LS
+function loadMls(){
+    afiseaza(localStorage, "mls");
+}
+
+function salveazaMls(){
+    var tL = document.getElementById("tipL").value;
+    var mL = document.getElementById("modelL").value;
+    var cL = document.getElementById("culoareL").value;
+    var aL = document.getElementById("anFabL").value;
+
+    var masinaL = {tip : tL, model : mL, culoare : cL, anFab : aL};
+
+    localStorage.setItem("masina", JSON.stringify(masinaL));
+
+    loadMls();
+    return false;
+}
+
+// "masina" SS
+function loadMss(){
+    afiseaza(sessionStorage, "mss");
+}
+
+function salveazaMss(){
+    var tS = document.getElementById("tipS").value;
+    var mS = document.getElementById("modelS").value;
+    var cS = document.getElementById("culoareS").value;
+    var aS = document.getElementById("anFabS").value;
+
+    var masinaS = {tip : tS, model : mS, culoare : cS, anFab : aS};
+
+    sessionStorage.setItem("masina", JSON.stringify(masinaS));
+
+    loadMss();
+    return false;
+}
+
+// Stergere masina
+function sterge(depozit, id){
+    depozit.removeItem("masina");
+    afiseaza(depozit, id);
+}
+
+function stergeMls(){
+    sterge(localStorage, "mls");
+}
+
+function stergeMss(){
+    sterge(sessionStorage, "mss");
+}
+
+</script>
+</head>
+
+<body onload="loadMls(); loadMss()">
+
+<div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+<p>Masina JavaScript</p>
+    <div id="mjs"></div>
+    </div>
+
+<div style="background-color:ForestGreen;color:white;font-size:200%">
+    <p>Masina Local Storage</p>
+
+    <form onsubmit="return salveazaMls()">
+        <label for="tipL">Tip</label>
+        <input id="tipL" required>
+
+        <label for="modelL">Model</label>
+        <input id="modelL" required>
+
+        <label for="culoareL">Culoare</label>
+        <input id="culoareL" required>
+
+        <label for="anFabL">An de fabricație</label>
+        <input id="anFabL" type="number" required>
+
+        <button type="submit">Salvează</button>
+        <button type="button" onclick="stergeMls()">Șterge</button>
+    </form>
+
+    <div id="mls"></div>
+    
+    </div>
+
+<div style="background-color:SeaGreen;color:white;font-size:200%">
+    <p>Masina Session Storage</p>
+
+    <form onsubmit="return salveazaMss()">
+        <label for="tipS">Tip</label>
+        <input id="tipS" required>
+
+        <label for="modelS">Model</label>
+        <input id="modelS" required>
+
+        <label for="culoareS">Culoare</label>
+        <input id="culoareS" required>
+
+        <label for="anFabS">An de fabricație</label>
+        <input id="anFabS" type="number" required>
+
+        <button type="submit">Salvează</button>
+        <button type="button" onclick="stergeMss()">Șterge</button>
+    </form>
+
+    <div id="mss"></div>
+    
+    </div>
+
+</body>
+</html>

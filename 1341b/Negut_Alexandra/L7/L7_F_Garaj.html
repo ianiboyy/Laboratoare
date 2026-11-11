@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestiune Garaj Auto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f4f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .btn-sterge {
+            background-color: #dc3545;
+            padding: 5px 10px;
+        }
+        .btn-sterge:hover {
+            background-color: #a71d2a;
+        }
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        #numar-masini {
+            font-weight: bold;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gestiune Garaj</h1>
+
+    <!-- Formularul de adăugare -->
+    <form id="formGaraj">
+        <div class="form-group">
+            <label for="marca">Marcă:</label>
+            <input type="text" id="marca" required>
+        </div>
+        <div class="form-group">
+            <label for="model">Model:</label>
+            <input type="text" id="model" required>
+        </div>
+        <div class="form-group">
+            <label for="an">An fabricație:</label>
+            <input type="number" id="an" required>
+        </div>
+        <button type="submit">Adaugă Mașina</button>
+    </form>
+
+    <!-- Numărul de mașini -->
+    <p>Număr de mașini în garaj: <span id="numar-masini">0</span></p>
+
+    <h2>Lista Mașinilor</h2>
+    <!-- Tabelul cu mașini -->
+    <table>
+        <thead>
+            <tr>
+                <th>Marcă</th>
+                <th>Model</th>
+                <th>An</th>
+                <th>Acțiune</th>
+            </tr>
+        
+        <tbody id="tabelGaraj">
+            <!-- Rândurile vor fi generate dinamic prin JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        const formGaraj = document.getElementById('formGaraj');
+        const tabelGaraj = document.getElementById('tabelGaraj');
+        const spanNumarMasini = document.getElementById('numar-masini');
+
+        // Funcție pentru afișarea datelor din Local Storage
+        function afiseazaGaraj() {
+            // Preluare date din Local Storage sau tablou gol
+            let garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+            
+            // Golim tabelul înainte de a-l reface
+            tabelGaraj.innerHTML = "";
+
+            // Parcurgem tabloul cu o buclă for
+            for (let i = 0; i < garaj.length; i++) {
+                let masina = garaj[i];
+                
+                let rand = document.createElement('tr');
+                rand.innerHTML = `
+                    <td>${masina.marca}</td>
+                    <td>${masina.model}</td>
+                    <td>${masina.an}</td>
+                    <td><button class="btn-sterge" onclick="stergeMasina(${i})">Șterge</button></td>
+                `;
+                tabelGaraj.appendChild(rand);
+            }
+
+            // Actualizăm numărul de mașini
+            spanNumarMasini.textContent = garaj.length;
+        }
+
+        // Eveniment pentru trimiterea formularului (Adăugare)
+        formGaraj.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let marca = document.getElementById('marca').value;
+            let model = document.getElementById('model').value;
+            let an = document.getElementById('an').value;
+
+            // Citim tabloul existent
+            let garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+
+            // Adăugăm noua mașină cu push
+            garaj.push({ marca: marca, model: model, an: an });
+
+            // Salvăm înapoi în Local Storage
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            // Resetăm formularul și reîmprospătăm tabelul
+            formGaraj.reset();
+            afiseazaGaraj();
+        });
+
+        // Funcție pentru ștergerea unei mașini
+        function stergeMasina(i) {
+            let garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+
+            // Scoatem elementul de la indexul i folosind splice
+            garaj.splice(i, 1);
+
+            // Salvăm tabloul actualizat
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            // Reîmprospătăm tabelul
+            afiseazaGaraj();
+        }
+
+        // Apelăm funcția la încărcarea paginii pentru a afișa datele existente
+        window.onload = afiseazaGaraj;
+    </script>
+</body>
+</html>

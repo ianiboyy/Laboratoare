@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj</title>
+</head>
+<body>
+
+    <div style="background-color: BlueViolet; color: white; font-size: 200%", align="center">
+
+    <form id="formMasina">
+        <input type="text" id="marca" placeholder="Marca" required>
+        <input type="text" id="model" placeholder="Model" required>
+        <input type="number" id="an" placeholder="An" required>
+        <button type="submit">Adauga</button>
+    </form>
+
+    </div>
+    <div style="background-color: BlueViolet; color: white; font-size: 200%", align="center">
+    <p id="contor">Numar masini: 0</p>
+    </div>
+
+     <div style="background-color: BlueViolet; color: white; font-size: 200%", align="center">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Marca</th>
+                <th>Model</th>
+                <th>An</th>
+                <th>Actiune</th>
+            </tr>
+        </thead>
+        <tbody id="tabelGaraj"></tbody>
+    </table>
+    </div>
+    <script>
+        var form = document.getElementById("formMasina");
+        var tabel = document.getElementById("tabelGaraj");
+        var contor = document.getElementById("contor");
+
+        var garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+
+        function afiseazaGaraj() {
+            tabel.innerHTML = "";
+
+            for (var i = 0; i < garaj.length; i++) {
+                var rand = "<tr>" +
+                    "<td>" + garaj[i].marca + "</td>" +
+                    "<td>" + garaj[i].model + "</td>" +
+                    "<td>" + garaj[i].an + "</td>" +
+                    "<td><button onclick='stergeMasina(" + i + ")'>Șterge</button></td>" +
+                    "</tr>";
+                tabel.innerHTML += rand;
+            }
+
+            contor.innerText = "Numar masini: " + garaj.length;
+        }
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var masinaNoua = {
+                marca: document.getElementById("marca").value,
+                model: document.getElementById("model").value,
+                an: document.getElementById("an").value
+            };
+
+            garaj.push(masinaNoua);
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            form.reset();
+            afiseazaGaraj();
+        });
+
+        function stergeMasina(i) {
+            garaj.splice(i, 1);
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+            afiseazaGaraj();
+        }
+
+        afiseazaGaraj();
+    </script>
+
+</body>
+</html>

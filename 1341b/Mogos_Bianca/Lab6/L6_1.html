@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificare folosind getElementById</title>
+</head>
+<body>
+
+<p id="intro">Salutare, <br /> oameni buni! <br /> (Text de modificat cu js!)</p>
+
+<p>Folositi metoda <b>getElementById</b> pentru a modifica textele paragrafelor alaturate !</p>
+
+<p id="demo">Acest text va fi modificat prin JavaScript</p>
+
+<script>
+    // 1. Modificarea textului primului paragraf (având id-ul "intro")
+    document.getElementById("intro").innerHTML = "Bun venit, <br /> dragi colegi! <br /> (Textul a fost actualizat cu succes!)";
+
+    // 2. Modificarea textului ultimului paragraf (având id-ul "demo")
+    document.getElementById("demo").innerHTML = "Acesta este <b>noul text</b> modificat prin JavaScript folosind <i>getElementById</i>.";
+</script>
+
+</body>
+</html>

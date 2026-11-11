@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>L6_B</title>
+  <style>
+    #par1 {
+      color: navy;
+      font-weight: bold;
+    }
+
+    #par2 {
+      color: darkgreen;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <button id="swap" type="button">Schimba continuturile</button>
+  <p id="par1">Acesta este primul paragraf</p>
+  <p id="par2">Acesta este al doilea paragraf</p>
+
+  <script>
+    const paragrafe = document.querySelectorAll("p");
+
+    paragrafe.forEach((paragraf) => {
+      paragraf.addEventListener("click", () => {
+        const textNou = prompt("Introduceti textul nou:", paragraf.textContent);
+        if (textNou !== null) {
+          paragraf.textContent = textNou;
+        }
+      });
+    });
+
+    document.getElementById("swap").addEventListener("click", () => {
+      const first = document.getElementById("par1");
+      const last = document.getElementById("par2");
+      const textFirst = first.textContent;
+
+      first.textContent = last.textContent;
+      last.textContent = textFirst;
+    });
+  </script>
+</body>
+</html>

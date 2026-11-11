@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Document creat cu JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // 1. Crearea elementului pentru titlu (h1)
+        const titlu = document.createElement('h1');
+        titlu.textContent = "Titlu Mare și Albastru";
+        titlu.style.color = "blue";
+        
+        // Adăugarea titlului în corpul documentului
+        document.body.appendChild(titlu);
+
+        // 2. Crearea elementului pentru paragraf (p)
+        const paragraf = document.createElement('p');
+        
+        // Conținutul împărțit pe trei linii folosind eticheta <br>
+        paragraf.innerHTML = "Aceasta este prima linie a paragrafului generat din JavaScript.<br>" +
+                             "Aceasta este a doua linie a aceluiași paragraf.<br>" +
+                             "Aceasta este a treia linie care încheie textul.";
+                             
+        // Aplicarea stilului pentru fundalul galben și un aspect curat
+        paragraf.style.backgroundColor = "yellow";
+        paragraf.style.padding = "15px";
+        paragraf.style.lineHeight = "1.6";
+        
+        // Adăugarea paragrafului în corpul documentului
+        document.body.appendChild(paragraf);
+    </script>
+</body>
+</html>

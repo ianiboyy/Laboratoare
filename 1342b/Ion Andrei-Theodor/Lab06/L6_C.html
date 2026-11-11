@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>L6_C</title>
+</head>
+<body>
+
+<h1 id="titlu" onclick="culoare1()">Titlu de cateva cuvinte</h1>
+
+<p id="par" onclick="culoare2()">
+Prima linie<br>
+A doua linie<br>
+A treia linie
+</p>
+
+<script>
+function culoare1() {
+var c = prompt("Culoare titlu:");
+
+if (CSS.supports("color", c))
+document.getElementById("titlu").style.color = c;
+else
+alert("Culoare incorecta");
+}
+
+function culoare2() {
+var c = prompt("Culoare fundal:");
+
+if (CSS.supports("color", c))
+document.getElementById("par").style.backgroundColor = c;
+else
+alert("Culoare incorecta");
+}
+</script>
+
+</body>
+</html>
+

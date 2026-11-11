@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>L6_B</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            margin: 40px;
+        }
+
+        #p1 {
+            color: #f70505;
+            font-style: Times;
+            background-color: #1100ff;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #p2 {
+            color: #000000;
+            font-weight: bold;
+            background-color: #ff00bf;
+            padding: 20px;
+            cursor: pointer;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: rgb(0, 0, 0);
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+
+        }
+    </style>
+</head>
+<body>
+
+    <button id="butonSchimba">Schimba paragrafele</button>
+
+    <p id="p1">Paragraful 1. Apasa-ma ca sa modific textul.</p>
+    <p id="p2">Paragraful 2. Apasa-ma ca sa modific textul.</p>
+
+    <script>
+        const p1 = document.getElementById('p1');
+        const p2 = document.getElementById('p2');
+        const butonSchimba = document.getElementById('butonSchimba');
+
+        p1.addEventListener('click', function() {
+            let textNou = prompt("Introdu textul nou pentru paragraful 1:", p1.textContent);
+            if (textNou !== null && textNou.trim() !== "") {
+                p1.textContent = textNou;
+            }
+            
+        });
+
+        p2.addEventListener('click', function() {
+            let textNou = prompt("Introdu textul nou pentru paragraful 2:", p2.textContent);
+            if (textNou !== null && textNou.trim() !== "") {
+                p2.textContent = textNou;
+            }
+
+        });
+
+        butonSchimba.addEventListener('click', function() {
+            let temp = p1.textContent;
+            p1.textContent = p2.textContent;
+            p2.textContent = temp;
+
+        });
+
+    </script>
+
+</body>
+</html>

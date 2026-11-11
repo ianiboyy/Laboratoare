@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Galerie imagini</title>
+</head>
+<body>
+
+<img id="poza" src="Img/pisici.jpg" width="300" height="200">
+
+<br>
+
+<button onclick="inapoi()">Inapoi</button>
+<button onclick="inainte()">Inainte</button>
+
+<p id="text">Imaginea 1 din 4</p>
+
+<script>
+var imagini = ["Img/pisici.jpg", "Img/caini.jpg", "Img/munti.jpg", "Img/mare.jpg"];
+var i = 0;
+
+function inainte() {
+    i = (i + 1) % 4;
+    document.getElementById("poza").src = imagini[i];
+    document.getElementById("text").innerHTML = "Imaginea " + (i + 1) + " din 4";
+}
+
+function inapoi() {
+    i = (i + 3) % 4;
+    document.getElementById("poza").src = imagini[i];
+    document.getElementById("text").innerHTML = "Imaginea " + (i + 1) + " din 4";
+}
+</script>
+
+</body>
+</html>

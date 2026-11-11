@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionare Garaj</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        form { margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 5px; width: 300px; }
+        input, button { margin: 8px 0; padding: 6px; width: 100%; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #7f7b81; color: white; }
+        button.delete-btn { background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer; width: auto; }
+        button.delete-btn:hover { background-color: #cc0000; }
+    </style>
+</head>
+<body>
+
+    <h1>Gestionare Garaj</h1>
+
+    <!-- Formular adăugare mașină -->
+    <form id="carForm">
+        <h3>Adaugă mașină nouă</h3>
+        <div>
+            <label for="marca">Marcă:</label>
+            <input type="text" id="marca" required>
+        </div>
+        <div>
+            <label for="model">Model:</label>
+            <input type="text" id="model" required>
+        </div>
+        <div>
+            <label for="an">An:</label>
+            <input type="number" id="an" required>
+        </div>
+        <button type="submit">Adaugă în Garaj</button>
+    </form>
+
+    <!-- Număr de mașini -->
+    <p id="carCount">Număr mașini în garaj: 0</p>
+
+    <!-- Tabel mașini -->
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Marcă</th>
+                <th>Model</th>
+                <th>An</th>
+                <th>Acțiune</th>
+            </tr>
+        </thead>
+        <tbody id="carTableBody">
+            <!-- Conținut generat dinamic prin JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        const form = document.getElementById('carForm');
+        const carTableBody = document.getElementById('carTableBody');
+        const carCount = document.getElementById('carCount');
+
+        // Funcția pentru randarea tabloului și a numărului de mașini
+        function afiseazaGaraj() {
+            let garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+            
+            // Actualizare număr mașini
+            carCount.textContent = `Număr mașini în garaj: ${garaj.length}`;
+
+            // Refacere completă tabel cu o buclă for
+            carTableBody.innerHTML = "";
+            for (let i = 0; i < garaj.length; i++) {
+                let masina = garaj[i];
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td>${masina.marca}</td>
+                    <td>${masina.model}</td>
+                    <td>${masina.an}</td>
+                    <td><button class="delete-btn" onclick="stergeMasina(${i})">Șterge</button></td>
+                `;
+                carTableBody.appendChild(tr);
+            }
+        }
+
+        // Eveniment submit formular
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let marca = document.getElementById('marca').value;
+            let model = document.getElementById('model').value;
+            let an = document.getElementById('an').value;
+
+            // Citire tablou din Local Storage sau [] dacă nu există
+            let garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+
+            // Adăugare element nou cu push
+            garaj.push({ marca: marca, model: model, an: an });
+
+            // Salvare înapoi în Local Storage cu JSON.stringify
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            // Resetare formular și actualizare afișare
+            form.reset();
+            afiseazaGaraj();
+        });
+
+        // Funcție globală pentru ștergerea unei mașini
+        function stergeMasina(i) {
+            let garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+
+            // Scoatere element din tablou cu splice
+            garaj.splice(i, 1);
+
+            // Salvare înapoi în Local Storage
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            // Actualizare afișare
+            afiseazaGaraj();
+        }
+
+        // Încărcarea datelor la deschiderea paginii
+        window.onload = afiseazaGaraj;
+    </script>
+
+</body>
+</html>

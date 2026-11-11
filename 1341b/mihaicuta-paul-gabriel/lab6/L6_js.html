@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Document creat cu JavaScript</title>
+</head>
+<body>
+    <script>
+    var titlu = document.createElement("h1");
+    titlu.innerHTML = "Document creat cu JavaScript";
+    titlu.style.color = "blue";
+    document.body.appendChild(titlu);
+
+    var par = document.createElement("p");
+    par.innerHTML = "Prima linie a paragrafului.<br>A doua linie a paragrafului.<br>A treia linie a paragrafului.";
+    par.style.backgroundColor = "yellow";
+    document.body.appendChild(par);
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - obiecte si JSON</title>
+
+    <script>
+        function loadMjs() {
+            var mJS = {
+                tip: "Dacia",
+                model: "Logan",
+                culoare: "verde",
+                anFab: 2012
+            };
+
+            document.getElementById("mjs").innerHTML =
+                "<ul>" +
+                "<li>Tip: " + mJS.tip + "</li>" +
+                "<li>Model: " + mJS.model + "</li>" +
+                "<li>Culoare: " + mJS.culoare + "</li>" +
+                "<li>An fabricatie: " + mJS.anFab + "</li>" +
+                "</ul>";
+        }
+
+        function afiseaza(storage, id) {
+            var text = storage.getItem("masina");
+
+            if (text) {
+                var masina = JSON.parse(text);
+
+                document.getElementById(id).innerHTML =
+                    "<ul>" +
+                    "<li>Tip: " + masina.tip + "</li>" +
+                    "<li>Model: " + masina.model + "</li>" +
+                    "<li>Culoare: " + masina.culoare + "</li>" +
+                    "<li>An fabricatie: " + masina.anFab + "</li>" +
+                    "</ul>";
+            } else {
+                document.getElementById(id).innerHTML =
+                    "Nicio masina salvata";
+            }
+        }
+
+        function salveazaMls() {
+            var masina = {
+                tip: document.getElementById("tipL").value,
+                model: document.getElementById("modelL").value,
+                culoare: document.getElementById("culoareL").value,
+                anFab: Number(document.getElementById("anL").value)
+            };
+
+            localStorage.setItem("masina", JSON.stringify(masina));
+
+            afiseaza(localStorage, "mls");
+
+            return false;
+        }
+
+        function salveazaMss() {
+            var masina = {
+                tip: document.getElementById("tipS").value,
+                model: document.getElementById("modelS").value,
+                culoare: document.getElementById("culoareS").value,
+                anFab: Number(document.getElementById("anS").value)
+            };
+
+            sessionStorage.setItem("masina", JSON.stringify(masina));
+
+            afiseaza(sessionStorage, "mss");
+
+            return false;
+        }
+
+        function stergeMls() {
+            localStorage.removeItem("masina");
+            afiseaza(localStorage, "mls");
+        }
+
+        function stergeMss() {
+            sessionStorage.removeItem("masina");
+            afiseaza(sessionStorage, "mss");
+        }
+
+        function init() {
+            loadMjs();
+            afiseaza(localStorage, "mls");
+            afiseaza(sessionStorage, "mss");
+        }
+    </script>
+</head>
+
+<body onload="init()">
+
+    <div style="background-color:LimeGreen;color:white;font-size:200%">
+        <p>Masina JavaScript</p>
+        <div id="mjs"></div>
+    </div>
+
+    <div style="background-color:ForestGreen;color:white;font-size:150%;padding:10px">
+        <p>Masina Local Storage</p>
+
+        <form onsubmit="return salveazaMls()">
+            <label for="tipL">Tip:</label>
+            <input type="text" id="tipL" required>
+
+            <label for="modelL">Model:</label>
+            <input type="text" id="modelL" required>
+
+            <label for="culoareL">Culoare:</label>
+            <input type="text" id="culoareL" required>
+
+            <label for="anL">An fabricatie:</label>
+            <input type="number" id="anL" required>
+
+            <button type="submit">Salveaza</button>
+            <button type="button" onclick="stergeMls()">Sterge</button>
+        </form>
+
+        <div id="mls"></div>
+    </div>
+
+    <div style="background-color:SeaGreen;color:white;font-size:150%;padding:10px">
+        <p>Masina Session Storage</p>
+
+        <form onsubmit="return salveazaMss()">
+            <label for="tipS">Tip:</label>
+            <input type="text" id="tipS" required>
+
+            <label for="modelS">Model:</label>
+            <input type="text" id="modelS" required>
+
+            <label for="culoareS">Culoare:</label>
+            <input type="text" id="culoareS" required>
+
+            <label for="anS">An fabricatie:</label>
+            <input type="number" id="anS" required>
+
+            <button type="submit">Salveaza</button>
+            <button type="button" onclick="stergeMss()">Sterge</button>
+        </form>
+
+        <div id="mss"></div>
+    </div>
+
+</body>
+</html>

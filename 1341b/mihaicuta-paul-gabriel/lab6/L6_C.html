@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>L6_C</title>
+</head>
+<body>
+<h1 id="titlu">Un titlu de câteva cuvinte</h1>
+
+<p id="par">Prima linie de text.<br>A doua linie de text.<br>A treia linie de text.</p>
+
+<script>
+function citesteCuloare() {
+    var c = prompt("Introduceți o culoare:", "");
+    if (c === null) {
+        return null;
+    }
+    if (CSS.supports("color", c)) {
+        return c;
+    }
+    alert("Culoarea \"" + c + "\" nu este corectă!");
+    return null;
+}
+
+document.getElementById("titlu").onclick = function () {
+    var c = citesteCuloare();
+    if (c !== null) {
+        this.style.color = c;
+    }
+};
+
+document.getElementById("par").onclick = function () {
+    var c = citesteCuloare();
+    if (c !== null) {
+        this.style.backgroundColor = c;
+    }
+};
+</script>
+</body>
+</html>

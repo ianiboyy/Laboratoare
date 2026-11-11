@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj - Exercițiu Bonus</title>
+    <style>
+        body { 
+            background-color: LightGoldenRodYellow; 
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table { 
+            border-collapse: collapse; 
+            margin-top: 15px; 
+            background-color: white;
+            min-width: 400px;
+        }
+        th, td { 
+            border: 1px solid black; 
+            padding: 8px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #ddd; 
+        }
+    </style>
+    <script>
+        function citesteGaraj() {
+            var garajSalvat = localStorage.getItem("garaj");
+            if (garajSalvat) {
+                return JSON.parse(garajSalvat);
+            } else {
+                return [];
+            }
+        }
+
+        function afiseazaGaraj() {
+            var garaj = citesteGaraj();
+            var numarMasini = garaj.length;
+            
+            document.getElementById("contorMasini").innerHTML = "Număr de mașini în garaj: <b>" + numarMasini + "</b>";
+
+            var tabelHTML = "<table><tr><th>Tip</th><th>Model</th><th>Culoare</th><th>An Fabr.</th><th>Acțiune</th></tr>";
+            
+            for (var i = 0; i < numarMasini; i++) {
+                tabelHTML += "<tr>" +
+                    "<td>" + garaj[i].tip + "</td>" +
+                    "<td>" + garaj[i].model + "</td>" +
+                    "<td>" + garaj[i].culoare + "</td>" +
+                    "<td>" + garaj[i].anFab + "</td>" +
+                    "<td><button onclick='stergeMasina(" + i + ")'>Șterge</button></td>" +
+                    "</tr>";
+            }
+            tabelHTML += "</table>";
+            
+            document.getElementById("tabelGaraj").innerHTML = tabelHTML;
+        }
+
+        function adaugaMasina() {
+            var garaj = citesteGaraj();
+            
+            var masinaNoua = {
+                tip: document.getElementById("tip").value,
+                model: document.getElementById("model").value,
+                culoare: document.getElementById("culoare").value,
+                anFab: document.getElementById("an").value
+            };
+            
+            garaj.push(masinaNoua); 
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+            
+            document.getElementById("formGaraj").reset();
+            afiseazaGaraj();
+            
+            return false;
+        }
+
+        function stergeMasina(index) {
+            var garaj = citesteGaraj();
+            garaj.splice(index, 1); 
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+            afiseazaGaraj();
+        }
+    </script>
+</head>
+<body onload="afiseazaGaraj()">
+
+    <div style="background-color:ForestGreen; color:white; font-size:200%; padding: 10px; display: inline-block;">
+        Garajul Meu (Local Storage)
+    </div>
+    
+    <br><br>
+
+    <form id="formGaraj" onsubmit="return adaugaMasina()">
+        <label>Tip: <input id="tip" required></label><br><br>
+        <label>Model: <input id="model" required></label><br><br>
+        <label>Culoare: <input id="culoare" required></label><br><br>
+        <label>An fabr.: <input id="an" type="number" required></label><br><br>
+        <button type="submit">Adaugă Mașină</button>
+    </form>
+
+    <p id="contorMasini"></p>
+    
+    <div id="tabelGaraj"></div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercițiul L6_A</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+        }
+        p {
+            font-size: 18px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-left: 5px solid #3182ce;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Paragraful cu textul inițial cerut -->
+    <p id="paragraf">Text initial</p>
+
+    <script>
+        // Scriptul este scris după paragraf, deci elementul există deja în DOM
+        let textNou = prompt("Introduceți noul text pentru paragraf:");
+
+        // Verificăm dacă utilizatorul a apăsat OK (textNou nu este null)
+        // Opțional: putem verifica să nu fie nici gol, după preferință
+        if (textNou !== null) {
+            document.getElementById("paragraf").textContent = textNou;
+        }
+    </script>
+
+</body>
+</html>

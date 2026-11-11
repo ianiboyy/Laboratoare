@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare bruta</title>
+
+    <script>
+        function loadMjs() {
+            document.getElementById("mjs").innerHTML =
+                "<ul>" +
+                "<li>Tip: Dacia</li>" +
+                "<li>Model: Logan</li>" +
+                "<li>Culoare: verde</li>" +
+                "</ul>";
+        }
+
+        function afiseazaMasina(storage, id) {
+            var tip = storage.getItem(id + "_tip");
+            var model = storage.getItem(id + "_model");
+            var culoare = storage.getItem(id + "_culoare");
+
+            if (tip && model && culoare) {
+                document.getElementById(id).innerHTML =
+                    "<ul>" +
+                    "<li>Tip: " + tip + "</li>" +
+                    "<li>Model: " + model + "</li>" +
+                    "<li>Culoare: " + culoare + "</li>" +
+                    "</ul>";
+            } else {
+                document.getElementById(id).innerHTML =
+                    "Nicio masina salvata";
+            }
+        }
+
+        function salveazaMls() {
+            var tip = document.getElementById("tipL").value;
+            var model = document.getElementById("modelL").value;
+            var culoare = document.getElementById("culoareL").value;
+
+            localStorage.setItem("mls_tip", tip);
+            localStorage.setItem("mls_model", model);
+            localStorage.setItem("mls_culoare", culoare);
+
+            afiseazaMasina(localStorage, "mls");
+
+            return false;
+        }
+
+        function salveazaMss() {
+            var tip = document.getElementById("tipS").value;
+            var model = document.getElementById("modelS").value;
+            var culoare = document.getElementById("culoareS").value;
+
+            sessionStorage.setItem("mss_tip", tip);
+            sessionStorage.setItem("mss_model", model);
+            sessionStorage.setItem("mss_culoare", culoare);
+
+            afiseazaMasina(sessionStorage, "mss");
+
+            return false;
+        }
+
+        function stergeMls() {
+            localStorage.removeItem("mls_tip");
+            localStorage.removeItem("mls_model");
+            localStorage.removeItem("mls_culoare");
+
+            afiseazaMasina(localStorage, "mls");
+        }
+
+        function stergeMss() {
+            sessionStorage.removeItem("mss_tip");
+            sessionStorage.removeItem("mss_model");
+            sessionStorage.removeItem("mss_culoare");
+
+            afiseazaMasina(sessionStorage, "mss");
+        }
+
+        function init() {
+            loadMjs();
+            afiseazaMasina(localStorage, "mls");
+            afiseazaMasina(sessionStorage, "mss");
+        }
+    </script>
+</head>
+
+<body onload="init()">
+
+    <div style="background-color:LimeGreen;color:white;font-size:200%">
+        <p>Masina JavaScript</p>
+        <div id="mjs"></div>
+    </div>
+
+    <div style="background-color:ForestGreen;color:white;font-size:150%;padding:10px">
+        <p>Masina Local Storage</p>
+
+        <form onsubmit="return salveazaMls()">
+            <label for="tipL">Tip:</label>
+            <input type="text" id="tipL" required>
+
+            <label for="modelL">Model:</label>
+            <input type="text" id="modelL" required>
+
+            <label for="culoareL">Culoare:</label>
+            <input type="text" id="culoareL" required>
+
+            <button type="submit">Salveaza</button>
+            <button type="button" onclick="stergeMls()">Sterge</button>
+        </form>
+
+        <div id="mls"></div>
+    </div>
+
+    <div style="background-color:SeaGreen;color:white;font-size:150%;padding:10px">
+        <p>Masina Session Storage</p>
+
+        <form onsubmit="return salveazaMss()">
+            <label for="tipS">Tip:</label>
+            <input type="text" id="tipS" required>
+
+            <label for="modelS">Model:</label>
+            <input type="text" id="modelS" required>
+
+            <label for="culoareS">Culoare:</label>
+            <input type="text" id="culoareS" required>
+
+            <button type="submit">Salveaza</button>
+            <button type="button" onclick="stergeMss()">Sterge</button>
+        </form>
+
+        <div id="mss"></div>
+    </div>
+
+</body>
+</html>

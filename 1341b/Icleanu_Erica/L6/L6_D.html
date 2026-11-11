@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie Foto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .galerie {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .galerie img {
+            width: 500px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .controale {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #text-indicator {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="galerie">
+        <!-- Elementul <img> unde se va schimba imaginea -->
+        <img id="imagine-galerie" src="" alt="Galerie foto">
+
+        <!-- Butoanele de navigare -->
+        <div class="controale">
+            <button id="btn-inapoi">Înapoi</button>
+            <button id="btn-inainte">Înainte</button>
+        </div>
+
+        <!-- Textul de forma „Imaginea X din Y” -->
+        <div id="text-indicator"></div>
+    </div>
+
+    <script>
+        // Tabloul cu căile către imagini
+        var imagini = ["Img/pisici.jpg", "Img/mare.jpg", "Img/munti.jpg", "Img/caini.jpg"];
+        
+        // Variabila pentru reținerea poziției curente (indexul începe de la 0)
+        var pozitieCurenta = 0;
+
+        // Selectarea elementelor din DOM
+        var elementImg = document.getElementById("imagine-galerie");
+        var textIndicator = document.getElementById("text-indicator");
+        var btnInapoi = document.getElementById("btn-inapoi");
+        var btnInainte = document.getElementById("btn-inainte");
+
+        // Funcția care actualizează imaginea și textul pe ecran
+        function actualizeazaGalerie() {
+            // Setează sursa imaginii curente
+            elementImg.src = imagini[pozitieCurenta];
+            
+            // Actualizează textul indicator (pozitiaCurenta + 1 deoarece indexul e de la 0)
+            textIndicator.textContent = "Imaginea " + (pozitieCurenta + 1) + " din " + imagini.length;
+        }
+
+        // Eveniment pentru butonul „Înainte”
+        btnInainte.addEventListener("click", function() {
+            // Folosirea operatorului rest (%) pentru a reveni la început după ultima imagine
+            pozitieCurenta = (pozitieCurenta + 1) % imagini.length;
+            actualizeazaGalerie();
+        });
+
+        // Eveniment pentru butonul „Înapoi”
+        btnInapoi.addEventListener("click", function() {
+            // Se adaugă imagini.length pentru a evita valorile negative înainte de aplicarea operatorului %
+            pozitieCurenta = (pozitieCurenta - 1 + imagini.length) % imagini.length;
+            actualizeazaGalerie();
+        });
+
+        // Apel inițial pentru a afișa prima imagine la încărcarea paginii
+        actualizeazaGalerie();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>L6_B</title>
+</head>
+<body>
+<button type="button" onclick="schimba()">Schimba</button>
+
+<p id="p1" style="color:blue; background-color:yellow" onclick="editeaza('p1')">Primul paragraf</p>
+<p id="p2" style="color:white; background-color:green; font-style:italic" onclick="editeaza('p2')">Al doilea paragraf</p>
+
+<script>
+function editeaza(id) {
+    var text = prompt("Introduceti textul nou:");
+    if (text !== null && text !== "") {
+        document.getElementById(id).innerHTML = text;
+    }
+}
+
+function schimba() {
+    var p1 = document.getElementById("p1");
+    var p2 = document.getElementById("p2");
+    var aux = p1.innerHTML;
+    p1.innerHTML = p2.innerHTML;
+    p2.innerHTML = aux;
+}
+</script>
+</body>
+</html>

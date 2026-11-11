@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>L6_C</title>
+</head>
+<body>
+<h1 id="titlu">Titlul acestei pagini</h1>
+<p id="par">Prima linie colorata<br>A doua linie colorata<br>A treia linie colorata</p>
+
+<script>
+function culoare(id, proprietate) {
+    var c = prompt("Introduceti o culoare:");
+    if (c === null || c === "") {
+        return;
+    }
+    if (CSS.supports("color", c)) {
+        document.getElementById(id).style[proprietate] = c;
+    } else {
+        alert("Culoare incorecta: " + c);
+    }
+}
+
+document.getElementById("titlu").onclick = function () {
+    culoare("titlu", "color");
+};
+
+document.getElementById("par").onclick = function () {
+    culoare("par", "backgroundColor");
+};
+</script>
+</body>
+</html>

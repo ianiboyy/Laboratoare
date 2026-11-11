@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>L7 E - Masini Obiect JSON</title>
+    <style>
+        .box { padding: 15px; margin-bottom: 15px; color: white; }
+        label { display: inline-block; width: 120px; margin-top: 5px; }
+        input { margin-bottom: 5px; }
+    </style>
+</head>
+<body onload="incarcaToate()">
+
+    <h2>Stocare obiecte cu JSON.stringify și JSON.parse</h2>
+
+    <!-- 1. Masina JavaScript (Rămâne neschimbată) -->
+    <div class="box" style="background-color: FireBrick;">
+        <h3>Masina JavaScript</h3>
+        <button onclick="salveazaMjs()">Introduce date</button>
+        <button onclick="afiseazaMjs()">Afișează date</button>
+        <div id="mjs"></div>
+    </div>
+
+    <!-- 2. Masina Local Storage (Exercițiul 5) -->
+    <div class="box" style="background-color: ForestGreen;">
+        <h3>Masina Local Storage (Obiect JSON)</h3>
+        <form onsubmit="salveazaObj(localStorage, 'tipL', 'modelL', 'culoareL', 'anL', 'mls'); return false;">
+            <label for="tipL">Tip:</label> <input id="tipL" required><br>
+            <label for="modelL">Model:</label> <input id="modelL" required><br>
+            <label for="culoareL">Culoare:</label> <input id="culoareL" required><br>
+            <label for="anL">An fabricație:</label> <input id="anL" type="number" required><br>
+            <button type="submit">Salvează</button>
+            <button type="button" onclick="stergeObj(localStorage, 'mls')">Șterge</button>
+        </form>
+        <div id="mls" style="margin-top:10px; font-weight:bold;"></div>
+    </div>
+
+    <!-- 3. Masina Session Storage (Exercițiul 6) -->
+    <div class="box" style="background-color: SteelBlue;">
+        <h3>Masina Session Storage (Obiect JSON)</h3>
+        <form onsubmit="salveazaObj(sessionStorage, 'tipS', 'modelS', 'culoareS', 'anS', 'mss'); return false;">
+            <label for="tipS">Tip:</label> <input id="tipS" required><br>
+            <label for="modelS">Model:</label> <input id="modelS" required><br>
+            <label for="culoareS">Culoare:</label> <input id="culoareS" required><br>
+            <label for="anS">An fabricație:</label> <input id="anS" type="number" required><br>
+            <button type="submit">Salvează</button>
+            <button type="button" onclick="stergeObj(sessionStorage, 'mss')">Șterge</button>
+        </form>
+        <div id="mss" style="margin-top:10px; font-weight:bold;"></div>
+    </div>
+
+    <script>
+        // --- Masina JavaScript ---
+        var masinaJs = null;
+        function salveazaMjs() {
+            var t = prompt("Tip:");
+            var m = prompt("Model:");
+            var c = prompt("Culoare:");
+            var a = prompt("An fabricație:");
+            if (t && m && c && a) {
+                masinaJs = { tip: t, model: m, culoare: c, anFab: Number(a) };
+            }
+        }
+        function afiseazaMjs() {
+            var el = document.getElementById("mjs");
+            if (masinaJs) {
+                el.innerText = "Mașină JS: " + masinaJs.tip + " " + masinaJs.model + ", " + masinaJs.culoare + ", an " + masinaJs.anFab;
+            } else {
+                el.innerText = "Nicio mașină salvată în JS.";
+            }
+        }
+
+        // --- Incarcare si afisare generica (JSON.parse) ---
+        function incarcaToate() {
+            afiseazaObj(localStorage, "mls");
+            afiseazaObj(sessionStorage, "mss");
+        }
+
+        function salveazaObj(storage, idTip, idModel, idCuloare, idAn, divId) {
+            var obj = {
+                tip: document.getElementById(idTip).value,
+                model: document.getElementById(idModel).value,
+                culoare: document.getElementById(idCuloare).value,
+                anFab: Number(document.getElementById(idAn).value)
+            };
+            // Salvare ca text JSON
+            storage.setItem("masina", JSON.stringify(obj));
+            afiseazaObj(storage, divId);
+        }
+
+        function afiseazaObj(storage, divId) {
+            var dataText = storage.getItem("masina");
+            var div = document.getElementById(divId);
+            if (dataText) {
+                var obj = JSON.parse(dataText); // Deserializare JSON -> Obiect JS
+                div.innerText = "Mașină: " + obj.tip + " " + obj.model + " (" + obj.culoare + "), an fabricație: " + obj.anFab;
+            } else {
+                div.innerText = "Nicio mașină salvată";
+            }
+        }
+
+        function stergeObj(storage, divId) {
+            storage.removeItem("masina");
+            afiseazaObj(storage, divId);
+        }
+    </script>
+</body>
+</html>

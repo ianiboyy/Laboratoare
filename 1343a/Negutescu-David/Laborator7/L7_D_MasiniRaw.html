@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare "bruta"</title>
+	<script>
+		   function salveazaMls() {
+        let masina = {
+            tip: document.getElementById("tipL").value,
+            model: document.getElementById("modelL").value,
+            culoare: document.getElementById("culoareL").value
+        };
+
+        localStorage.setItem("masina", JSON.stringify(masina));
+
+        afiseazaMls();
+
+        return false;
+    }
+
+    function afiseazaMls() {
+        let date = localStorage.getItem("masina");
+        let sectiune = document.getElementById("mls");
+
+        if (date) {
+            let masina = JSON.parse(date);
+
+            sectiune.innerHTML =
+                "<p>Masina salvata:</p>" +
+                "<p>Tip: " + masina.tip + "</p>" +
+                "<p>Model: " + masina.model + "</p>" +
+                "<p>Culoare: " + masina.culoare + "</p>";
+        } else {
+            sectiune.innerHTML = "Nicio masina salvata";
+        }
+    }
+
+    window.onload = afiseazaMls;
+// "masina" JS
+function loadMjs(){
+document.getElementById("mjs").innerHTML = 
+"<ul>"+
+"<li>Tip:  Dacia</li>" +
+"<li>Model:  Logan</li>" +
+"<li>Culoare:  verde</li>" +
+"</ul>";
+}
+// "masina" LS
+function loadMls(){
+	if(localStorage.tip){
+		var tL = localStorage.tip;}
+	else{
+		var tL = prompt("Tip");
+		localStorage.tip = tL;
+	}
+	if(localStorage.model){
+		var mL = localStorage.model;
+	
+		}
+	else{
+		var mL = prompt("Model");
+		localStorage.model = mL;
+	}
+	if(localStorage.culoare){
+		var cL = localStorage.culoare;}
+	else{
+		var cL = prompt("Culoare:");
+		localStorage.culoare = cL;
+	}
+document.getElementById("mls").innerHTML = 
+"<ul>"+
+"<li>Tip: " + tL +"</li>" +
+"<li>Model: "  + mL +"</li>" +
+"<li>Culoare: "  + cL + "</li>" +
+"</ul>";
+}
+// "masina" SS
+function loadMss(){
+if(sessionStorage.tip){
+var tS = sessionStorage.tip;}
+else{
+var tS = prompt("Tip");
+sessionStorage.tip = tS;
+}
+if(sessionStorage.model){
+var mS = sessionStorage.model;}
+else{
+var mS = prompt("Model");
+sessionStorage.model = mS;
+}
+if(sessionStorage.culoare){
+var cS = sessionStorage.culoare;}
+else{
+var cS = prompt("Culoare:");
+sessionStorage.culoare = cS;
+}
+document.getElementById("mss").innerHTML = 
+"<ul>"+
+"<li>Tip: " + tS +"</li>" +
+"<li>Model: "  + mS +"</li>" +
+"<li>Culoare: "  + cS + "</li>" +
+"</ul>";
+}
+
+// ADAUGAT: salvare Masina Session Storage
+function salveazaMss() {
+    let masina = {
+        tip: document.getElementById("tipS").value,
+        model: document.getElementById("modelS").value,
+        culoare: document.getElementById("culoareS").value
+    };
+
+    sessionStorage.setItem("masina", JSON.stringify(masina));
+    afiseazaMss();
+
+    return false;
+}
+
+// ADAUGAT: afisare Masina Session Storage
+function afiseazaMss() {
+    let date = sessionStorage.getItem("masina");
+    let sectiune = document.getElementById("mss");
+
+    if (date) {
+        let masina = JSON.parse(date);
+
+        sectiune.innerHTML =
+            "<p>Masina salvata:</p>" +
+            "<p>Tip: " + masina.tip + "</p>" +
+            "<p>Model: " + masina.model + "</p>" +
+            "<p>Culoare: " + masina.culoare + "</p>";
+    } else {
+        sectiune.innerHTML = "Nicio masina salvata";
+    }
+}
+
+// ADAUGAT: stergere Masina Local Storage
+function stergeMls() {
+    localStorage.removeItem("masina");
+    localStorage.removeItem("tip");
+    localStorage.removeItem("model");
+    localStorage.removeItem("culoare");
+    afiseazaMls();
+}
+
+// ADAUGAT: stergere Masina Session Storage
+function stergeMss() {
+    sessionStorage.removeItem("masina");
+    sessionStorage.removeItem("tip");
+    sessionStorage.removeItem("model");
+    sessionStorage.removeItem("culoare");
+    afiseazaMss();
+}
+
+window.addEventListener("load", function() {
+    afiseazaMls();
+    afiseazaMss();
+});
+</script>
+</head>
+<body>
+<div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+<p>Masina JavaScript</p>
+	<div id="mjs"></div>
+	</div>
+
+<div style="background-color:ForestGreen;color:white;font-size:200%" ">
+	<p>Masina Local Storage</p>
+ <form id="formularL" onsubmit="return salveazaMls()">
+ <label for="tipL">Tip</label> <input id="tipL" required>
+ <label for="modelL">Model</label> <input id="modelL" required>
+ <label for="culoareL">Culoare</label> <input id="culoareL" required>
+ <button type="submit">Salveaza</button>
+ <button type="button" onclick="stergeMls()">Sterge</button>
+ </form>
+ 
+ <div id="mls"></div> 
+</div>
+
+<div style="background-color:SeaGreen;color:white;font-size:200%">
+	<p>Masina Session Storage</p>
+
+    <form id="formularS" onsubmit="return salveazaMss()">
+    <label for="tipS">Tip</label> <input id="tipS" required>
+    <label for="modelS">Model</label> <input id="modelS" required>
+    <label for="culoareS">Culoare</label> <input id="culoareS" required>
+    <button type="submit">Salveaza</button>
+    <button type="button" onclick="stergeMss()">Sterge</button>
+    </form>
+
+	<div id="mss"></div>
+	
+	</div>
+
+</body>
+</html>

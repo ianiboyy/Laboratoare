@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercițiul L6_C</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+        }
+        
+        /* Stilizare pentru titlu (cursor indică că este clicabil) */
+        h1 {
+            cursor: pointer;
+            color: #2b6cb0;
+            user-select: none;
+            display: inline-block;
+        }
+        
+        /* Stilizare pentru paragraf (exact 3 linii și cursor interactiv) */
+        p {
+            cursor: pointer;
+            width: 450px;
+            line-height: 1.6;
+            padding: 15px;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Titlul de câteva cuvinte -->
+    <h1 id="titluPagina">Titlu Principal Elegant</h1>
+
+    <!-- Paragraful cu trei linii de text -->
+    <p id="paragrafText">
+        Aceasta este prima linie a paragrafului nostru informativ.<br>
+        Aceasta este a doua linie, adăugată pentru a asigura structura cerută.<br>
+        Aceasta este a treia linie care încheie textul demonstrativ.
+    </p>
+
+    <script>
+        // Selectăm elementele din DOM
+        const titlu = document.getElementById('titluPagina');
+        const paragraf = document.getElementById('paragrafText');
+
+        // 1. Schimbarea culorii textului titlului la clic
+        titlu.addEventListener('click', function() {
+            let culoare = prompt("Introduceți o culoare pentru titlu (ex: red, #ff0000, rgb(255,0,0)):");
+            
+            // Verificăm dacă utilizatorul a apăsat OK (și nu Cancel)
+            if (culoare !== null) {
+                // Verificăm dacă culoarea este validă folosind indicația CSS.supports
+                if (CSS.supports("color", culoare)) {
+                    titlu.style.color = culoare;
+                } else {
+                    alert("Culoare incorectă („" + culoare + "”)! Valoarea introdusă nu este o culoare CSS validă.");
+                }
+            }
+        });
+
+        // 2. Schimbarea culorii de fundal a paragrafului la clic
+        paragraf.addEventListener('click', function() {
+            let culoare = prompt("Introduceți o culoare de fundal pentru paragraf (ex: yellow, #ffff00, etc.):");
+            
+            if (culoare !== null) {
+                if (CSS.supports("color", culoare)) {
+                    paragraf.style.backgroundColor = culoare;
+                } else {
+                    alert("Culoare incorectă („" + culoare + "”)! Valoarea introdusă nu este o culoare CSS validă.");
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

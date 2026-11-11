@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        h1 {
+            color: rgb(255, 102, 102);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: rgb(243, 102, 191);
+            color: white;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        function citesteGaraj() {
+            var text = localStorage.getItem("garaj");
+
+            if (text) {
+                return JSON.parse(text);
+            } else {
+                return [];
+            }
+        }
+
+        function salveazaGaraj(garaj) {
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+        }
+        
+        function adaugaMasina() {
+            var masina = {
+                tip: document.getElementById("tip").value,
+                model: document.getElementById("model").value,
+                culoare: document.getElementById("culoare").value,
+                anFab: Number(document.getElementById("anFab").value)
+            };
+
+            var garaj = citesteGaraj();
+
+            garaj.push(masina);
+
+            salveazaGaraj(garaj);
+
+            afiseazaGaraj();
+
+            document.getElementById("formular").reset();
+
+            return false;
+        }
+
+        function afiseazaGaraj() {
+            var garaj = citesteGaraj();
+
+            var tabel = document.getElementById("continut");
+
+            tabel.innerHTML = "";
+
+            for (var i = 0; i < garaj.length; i++) {
+                var rand = tabel.insertRow();
+
+                rand.insertCell(0).innerHTML = garaj[i].tip;
+                rand.insertCell(1).innerHTML = garaj[i].model;
+                rand.insertCell(2).innerHTML = garaj[i].culoare;
+                rand.insertCell(3).innerHTML = garaj[i].anFab;
+
+                var celula = rand.insertCell(4);
+
+                var buton = document.createElement("button");
+
+                buton.innerHTML = "Sterge";
+
+                buton.onclick = (function(index) {
+                    return function() {
+                        stergeMasina(index);
+                    };
+                })(i);
+
+                celula.appendChild(buton);
+            }
+
+            document.getElementById("numar").innerHTML =
+                "Numar masini in garaj: " + garaj.length;
+        }
+
+        function stergeMasina(index) {
+            var garaj = citesteGaraj();
+
+            garaj.splice(index, 1);
+
+            salveazaGaraj(garaj);
+
+            afiseazaGaraj();
+        }
+
+        function init() {
+            afiseazaGaraj();
+        }
+    </script>
+</head>
+
+<body onload="init()">
+
+    <h1>Garajul meu</h1>
+
+    <h2>Adauga o masina</h2>
+
+    <form id="formular" onsubmit="return adaugaMasina()">
+
+        <label for="tip">Tip:</label>
+        <input type="text" id="tip" required>
+
+        <br><br>
+
+        <label for="model">Model:</label>
+        <input type="text" id="model" required>
+
+        <br><br>
+
+        <label for="culoare">Culoare:</label>
+        <input type="text" id="culoare" required>
+
+        <br><br>
+
+        <label for="anFab">An fabricatie:</label>
+        <input type="number" id="anFab" required>
+
+        <br><br>
+
+        <button type="submit">Adauga masina</button>
+
+    </form>
+
+    <h2>Masinile din garaj</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tip</th>
+                <th>Model</th>
+                <th>Culoare</th>
+                <th>An fabricatie</th>
+                <th>Actiune</th>
+            </tr>
+        </thead>
+
+        <tbody id="continut">
+        </tbody>
+    </table>
+
+    <h3 id="numar"></h3>
+
+</body>
+</html>

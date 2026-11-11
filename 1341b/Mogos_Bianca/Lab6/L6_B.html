@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercițiul L6_B</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #2b6cb0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #2c5282;
+        }
+
+        /* Stiluri diferite pentru cele două paragrafe */
+        #paragraf1 {
+            color: #c53030;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #fff5f5;
+            padding: 12px;
+            border-left: 5px solid #c53030;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #paragraf2 {
+            color: #2b6cb0;
+            font-style: italic;
+            font-size: 16px;
+            background-color: #ebf8ff;
+            padding: 12px;
+            border-left: 5px solid #2b6cb0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Butonul -->
+    <button id="btnSchimba">Schimbă conținutul paragrafelor</button>
+
+    <!-- Cele două paragrafe -->
+    <p id="paragraf1">Acesta este primul paragraf (roșu, îngroșat). Apăsați aici pentru a-i modifica textul.</p>
+    <p id="paragraf2">Acesta este al doilea paragraf (albastru, cursiv). Apăsați aici pentru a-i modifica textul.</p>
+
+    <script>
+        // Selectăm elementele din DOM
+        const p1 = document.getElementById('paragraf1');
+        const p2 = document.getElementById('paragraf2');
+        const btn = document.getElementById('btnSchimba');
+
+        // 1. Modificarea textului la clic pe primul paragraf
+        p1.addEventListener('click', function() {
+            let textNou = prompt("Introduceți noul text pentru primul paragraf:", p1.textContent);
+            if (textNou !== null && textNou.trim() !== "") {
+                p1.textContent = textNou;
+            }
+        });
+
+        // 1. Modificarea textului la clic pe al doilea paragraf
+        p2.addEventListener('click', function() {
+            let textNou = prompt("Introduceți noul text pentru al doilea paragraf:", p2.textContent);
+            if (textNou !== null && textNou.trim() !== "") {
+                p2.textContent = textNou;
+            }
+        });
+
+        // 2. Interschimbarea conținutului la apăsarea butonului
+        btn.addEventListener('click', function() {
+            let temp = p1.textContent;
+            p1.textContent = p2.textContent;
+            p2.textContent = temp;
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare cu obiecte</title>
+<script>
+// "masina" JS
+function loadMjs(){
+    var mJS = {tip : "Dacia", model : "Logan", culoare : "verde", anFab : 2012};
+    document.getElementById("mjs").innerHTML = 
+    "<ul>"+
+    "<li>Tip: " + mJS.tip +"</li>" +
+    "<li>Model: "  + mJS.model +"</li>" +
+    "<li>Culoare: "  + mJS.culoare + "</li>" +
+    "<li>An fabricatie: "  + mJS.anFab + "</li>" +
+    "</ul>";
+}
+
+// Local Storage
+function afiseazaMls() {
+    if (localStorage.getItem("masina")) {
+        var masinaL = JSON.parse(localStorage.getItem("masina"));
+        document.getElementById("mls").innerHTML = 
+            "<ul>"+
+            "<li>Tip: " + masinaL.tip +"</li>" +
+            "<li>Model: " + masinaL.model +"</li>" +
+            "<li>Culoare: " + masinaL.culoare + "</li>" +
+            "<li>An fabricatie: " + masinaL.anFab + "</li>" +
+            "</ul>";
+    } else {
+        document.getElementById("mls").innerHTML = "<p>Nicio mașină salvată</p>";
+    }
+}
+
+function salveazaMls() {
+    var m = {
+        tip: document.getElementById("tipL").value,
+        model: document.getElementById("modelL").value,
+        culoare: document.getElementById("culoareL").value,
+        anFab: document.getElementById("anFabL").value
+    };
+    localStorage.setItem("masina", JSON.stringify(m));
+    afiseazaMls();
+    return false;
+}
+
+function stergeMls() {
+    localStorage.removeItem("masina");
+    afiseazaMls();
+}
+
+// Session Storage
+function afiseazaMss() {
+    if (sessionStorage.getItem("masina")) {
+        var masinaS = JSON.parse(sessionStorage.getItem("masina"));
+        document.getElementById("mss").innerHTML = 
+            "<ul>"+
+            "<li>Tip: " + masinaS.tip +"</li>" +
+            "<li>Model: " + masinaS.model +"</li>" +
+            "<li>Culoare: " + masinaS.culoare + "</li>" +
+            "<li>An fabricatie: " + masinaS.anFab + "</li>" +
+            "</ul>";
+    } else {
+        document.getElementById("mss").innerHTML = "<p>Nicio mașină salvată</p>";
+    }
+}
+
+function salveazaMss() {
+    var m = {
+        tip: document.getElementById("tipS").value,
+        model: document.getElementById("modelS").value,
+        culoare: document.getElementById("culoareS").value,
+        anFab: document.getElementById("anFabS").value
+    };
+    sessionStorage.setItem("masina", JSON.stringify(m));
+    afiseazaMss();
+    return false;
+}
+
+function stergeMss() {
+    sessionStorage.removeItem("masina");
+    afiseazaMss();
+}
+</script>
+</head>
+<body onload="afiseazaMls(); afiseazaMss();">
+
+<div style="background-color:LimeGreen;color:white;font-size:150%" onclick="loadMjs()">
+    <p>Masina JavaScript (click pentru afisare)</p>
+    <div id="mjs"></div>
+</div>
+
+<br>
+
+<div style="background-color:ForestGreen;color:white;font-size:150%;padding:10px;">
+    <p>Masina Local Storage (Obiect)</p>
+    <form onsubmit="return salveazaMls()">
+        <label for="tipL">Tip</label> <input id="tipL" required>
+        <label for="modelL">Model</label> <input id="modelL" required>
+        <label for="culoareL">Culoare</label> <input id="culoareL" required>
+        <label for="anFabL">An Fab.</label> <input id="anFabL" type="number" required>
+        <button type="submit">Salvează</button>
+        <button type="button" onclick="stergeMls()">Șterge</button>
+    </form>
+    <div id="mls"></div>
+</div>
+
+<br>
+
+<div style="background-color:SeaGreen;color:white;font-size:150%;padding:10px;">
+    <p>Masina Session Storage (Obiect)</p>
+    <form onsubmit="return salveazaMss()">
+        <label for="tipS">Tip</label> <input id="tipS" required>
+        <label for="modelS">Model</label> <input id="modelS" required>
+        <label for="culoareS">Culoare</label> <input id="culoareS" required>
+        <label for="anFabS">An Fab.</label> <input id="anFabS" type="number" required>
+        <button type="submit">Salvează</button>
+        <button type="button" onclick="stergeMss()">Șterge</button>
+    </form>
+    <div id="mss"></div>
+</div>
+
+<p><a href="index.html">Înapoi la meniu</a></p>
+</body>
+</html>

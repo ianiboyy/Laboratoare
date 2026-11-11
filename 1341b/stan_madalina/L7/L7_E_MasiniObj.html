@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare cu folosirea de obiecte"</title>
+	<script>
+// "masina" JS
+function loadMjs(){
+var mJS = {tip : "Dacia", model : "Logan", culoare : "verde", anFab : 2012};
+document.getElementById("mjs").innerHTML = 
+"<ul>"+
+"<li>Tip: " + mJS.tip +"</li>" +
+"<li>Model: "  + mJS.model +"</li>" +
+"<li>Culoare: "  + mJS.culoare + "</li>" +
+"<li>An fabricatie: "  + mJS.anFab + "</li>" +
+"</ul>";
+}
+// "masina" LS
+function loadMls(){
+	if(localStorage.masina){
+		var masinaL = JSON.parse(localStorage.masina)}
+	else{
+		
+		var masinaL = {tip : tL, model : mL, culoare : cL, an: aL};
+		localStorage.setItem("masina", JSON.stringify(masinaL));
+	}
+document.getElementById("mls").innerHTML = 
+"<ul>"+
+"<li>Tip: " + masinaL.tip +"</li>" +
+"<li>Model: "  + masinaL.model +"</li>" +
+"<li>Culoare: "  + masinaL.culoare + "</li>" +
+"<li>An: "  + masinaL.an + "</li>" +
+"</ul>";
+}
+// "masina" SS
+function loadMss(){
+	if(sessionStorage.masina){
+		var masinaS = JSON.parse(sessionStorage.masina)}
+	else{
+		
+		var masinaS = {tip : tS, model : mS, culoare : cS, an: aS};
+		localStorage.setItem("masina", JSON.stringify(masinaS));
+	}
+document.getElementById("mss").innerHTML = 
+"<ul>"+
+"<li>Tip: " + masinaS.tip +"</li>" +
+"<li>Model: "  + masinaS.model +"</li>" +
+"<li>Culoare: "  + masinaS.culoare + "</li>" +
+"<li>An: "  + masinaS.an + "</li>" +
+"</ul>";
+}
+function salveazaMls(){
+	var masinaL={
+		tip : document.getElementById("tipL").value,
+		model : document.getElementById("modelL").value,
+		culoare : document.getElementById("culoareL").value,
+		an : document.getElementById("anL").value
+	};
+	localStorage.setItem("masina",JSON.stringify(masinaL));
+}
+function salveazaMss(){
+	var masinaS={
+		tip : document.getElementById("tipS").value,
+		model : document.getElementById("modelS").value,
+		culoare : document.getElementById("culoareS").value,
+		an : document.getElementById("anS").value
+	};
+	sessionStorage.setItem("masina",JSON.stringify(masinaS));
+}
+</script>
+</head>
+<body onload="loadMls(), loadMss()">
+<div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+<p>Masina JavaScript</p>
+	<div id="mjs"></div>
+	</div>
+
+<div style="background-color:ForestGreen;color:white;font-size:200%" onclick="loadMls()">
+	<p>Masina Local Storage</p>
+	<form onsubmit="return salveazaMls()">
+		<label for="tipL">Tip</label> <input id="tipL" required>
+		<label for="modelL">Model</label> <input id="modelL" required>
+		<label for="culoareL">Culoare</label> <input id="culoareL" required>
+		<label for="anL">An</label> <input id="anL" required>
+		<button type="submit">Salvează</button>
+	</form>
+	<div id="mls"></div>
+	
+	</div>
+
+<div style="background-color:SeaGreen;color:white;font-size:200%"  onclick="loadMss()">
+	<p>Masina Session Storage</p>
+	<form onsubmit="return salveazaMss()">
+		<label for="tipS">Tip</label> <input id="tipS" required>
+		<label for="modelS">Model</label> <input id="modelS" required>
+		<label for="culoareS">Culoare</label> <input id="culoareS" required>
+		<label for="anS">An</label> <input id="anS" required>
+		<button type="submit">Salvează</button>
+	</form>
+	<div id="mss"></div>
+	
+	</div>
+
+</body>
+</html>

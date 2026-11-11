@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj - Tablou de obiecte</title>
+    <script>
+    function afiseazaGaraj() {
+        
+        var garajText = localStorage.getItem("garaj");
+        var garaj = garajText ? JSON.parse(garajText) : [];
+
+        
+        document.getElementById("numarMasini").innerText = "Numar masini in garaj: " + garaj.length;
+
+        
+        var html = "<table border='1'><tr><th>Tip</th><th>Model</th><th>Culoare</th><th>An</th><th>Buton</th></tr>";
+        for(var i = 0; i < garaj.length; i++) {
+            var m = garaj[i];
+            html += "<tr>";
+            html += "<td>" + m.tip + "</td>";
+            html += "<td>" + m.model + "</td>";
+            html += "<td>" + m.culoare + "</td>";
+            html += "<td>" + m.an + "</td>";
+            html += "<td><button onclick='stergeMasina(" + i + ")'>Sterge</button></td>";
+            html += "</tr>";
+        }
+        html += "</table>";
+        document.getElementById("tabelGaraj").innerHTML = html;
+    }
+
+    function adaugaMasina() {
+        var m = {
+            tip: document.getElementById("tipG").value,
+            model: document.getElementById("modelG").value,
+            culoare: document.getElementById("culoareG").value,
+            an: document.getElementById("anG").value
+        };
+
+        var garajText = localStorage.getItem("garaj");
+        var garaj = garajText ? JSON.parse(garajText) : [];
+        
+        
+        garaj.push(m);
+        localStorage.setItem("garaj", JSON.stringify(garaj));
+
+        afiseazaGaraj();
+        document.getElementById("formGaraj").reset(); 
+        return false; 
+    }
+
+    function stergeMasina(index) {
+        var garajText = localStorage.getItem("garaj");
+        var garaj = garajText ? JSON.parse(garajText) : [];
+        
+        
+        garaj.splice(index, 1);
+        localStorage.setItem("garaj", JSON.stringify(garaj));
+
+        afiseazaGaraj();
+    }
+    </script>
+    <style>
+        body { background-color: LightGoldenRodYellow; font-family: sans-serif; }
+        table { border-collapse: collapse; margin-top: 15px; width: 100%; max-width: 600px; background-color: white;}
+        th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body onload="afiseazaGaraj()">
+    <div>
+        <h2 style="color: green;">Adauga masina in Garaj</h2>
+        <form id="formGaraj" onsubmit="return adaugaMasina()">
+            <label>Tip: <input id="tipG" required></label>
+            <label>Model: <input id="modelG" required></label>
+            <label>Culoare: <input id="culoareG" required></label>
+            <label>An: <input id="anG" type="number" required></label>
+            <button type="submit">Adauga</button>
+        </form>
+        
+        <h3 id="numarMasini" style="color: DarkGreen;"></h3>
+        <div id="tabelGaraj"></div>
+    </div>
+</body>
+</html>

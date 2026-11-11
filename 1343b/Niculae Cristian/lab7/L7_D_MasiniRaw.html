@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>L7 D - Masini Raw</title>
+    <style>
+        .box { padding: 15px; margin-bottom: 15px; color: white; }
+        label { display: inline-block; width: 80px; margin-top: 5px; }
+        input { margin-bottom: 5px; }
+    </style>
+</head>
+<body onload="incarcaToate()">
+
+    <h2>Stocare date ca valori text separate (Raw)</h2>
+
+    <!-- 1. Masina JavaScript (Rămâne neschimbată) -->
+    <div class="box" style="background-color: FireBrick;">
+        <h3>Masina JavaScript</h3>
+        <p>Datele există doar în memoria scriptului pe durata rulării.</p>
+        <button onclick="salveazaMjs()">Introduce date</button>
+        <button onclick="afiseazaMjs()">Afișează date</button>
+        <div id="mjs"></div>
+    </div>
+
+    <!-- 2. Masina Local Storage -->
+    <div class="box" style="background-color: ForestGreen;">
+        <h3>Masina Local Storage</h3>
+        <form onsubmit="salveazaMls(); return false;">
+            <label for="tipL">Tip:</label> <input id="tipL" required><br>
+            <label for="modelL">Model:</label> <input id="modelL" required><br>
+            <label for="culoareL">Culoare:</label> <input id="culoareL" required><br>
+            <button type="submit">Salvează</button>
+            <button type="button" onclick="stergeMls()">Șterge</button>
+        </form>
+        <div id="mls" style="margin-top:10px; font-weight:bold;"></div>
+    </div>
+
+    <!-- 3. Masina Session Storage -->
+    <div class="box" style="background-color: SteelBlue;">
+        <h3>Masina Session Storage</h3>
+        <form onsubmit="salveazaMss(); return false;">
+            <label for="tipS">Tip:</label> <input id="tipS" required><br>
+            <label for="modelS">Model:</label> <input id="modelS" required><br>
+            <label for="culoareS">Culoare:</label> <input id="culoareS" required><br>
+            <button type="submit">Salvează</button>
+            <button type="button" onclick="stergeMss()">Șterge</button>
+        </form>
+        <div id="mss" style="margin-top:10px; font-weight:bold;"></div>
+    </div>
+
+    <script>
+        // --- Masina JavaScript ---
+        var mjsTip = "", mjsModel = "", mjsCuloare = "";
+        function salveazaMjs() {
+            mjsTip = prompt("Tip mașină JS:", mjsTip);
+            mjsModel = prompt("Model mașină JS:", mjsModel);
+            mjsCuloare = prompt("Culoare mașină JS:", mjsCuloare);
+        }
+        function afiseazaMjs() {
+            var el = document.getElementById("mjs");
+            if (mjsTip && mjsModel && mjsCuloare) {
+                el.innerText = "Mașină JS: " + mjsTip + " " + mjsModel + ", " + mjsCuloare;
+            } else {
+                el.innerText = "Nicio mașină salvată în JS.";
+            }
+        }
+
+        // --- Incarcare initiala ---
+        function incarcaToate() {
+            afiseazaMls();
+            afiseazaMss();
+        }
+
+        // --- Local Storage (Exercițiul 3 & 4) ---
+        function salveazaMls() {
+            localStorage.setItem("m_tip", document.getElementById("tipL").value);
+            localStorage.setItem("m_model", document.getElementById("modelL").value);
+            localStorage.setItem("m_culoare", document.getElementById("culoareL").value);
+            afiseazaMls();
+        }
+        function afiseazaMls() {
+            var t = localStorage.getItem("m_tip");
+            var m = localStorage.getItem("m_model");
+            var c = localStorage.getItem("m_culoare");
+            var div = document.getElementById("mls");
+            if (t && m && c) {
+                div.innerText = "Mașină Local: " + t + " " + m + " (" + c + ")";
+            } else {
+                div.innerText = "Nicio mașină salvată";
+            }
+        }
+        function stergeMls() {
+            localStorage.removeItem("m_tip");
+            localStorage.removeItem("m_model");
+            localStorage.removeItem("m_culoare");
+            afiseazaMls();
+        }
+
+        // --- Session Storage (Exercițiul 4) ---
+        function salveazaMss() {
+            sessionStorage.setItem("m_tip", document.getElementById("tipS").value);
+            sessionStorage.setItem("m_model", document.getElementById("modelS").value);
+            sessionStorage.setItem("m_culoare", document.getElementById("culoareS").value);
+            afiseazaMss();
+        }
+        function afiseazaMss() {
+            var t = sessionStorage.getItem("m_tip");
+            var m = sessionStorage.getItem("m_model");
+            var c = sessionStorage.getItem("m_culoare");
+            var div = document.getElementById("mss");
+            if (t && m && c) {
+                div.innerText = "Mașină Session: " + t + " " + m + " (" + c + ")";
+            } else {
+                div.innerText = "Nicio mașină salvată";
+            }
+        }
+        function stergeMss() {
+            sessionStorage.removeItem("m_tip");
+            sessionStorage.removeItem("m_model");
+            sessionStorage.removeItem("m_culoare");
+            afiseazaMss();
+        }
+    </script>
+</body>
+</html>

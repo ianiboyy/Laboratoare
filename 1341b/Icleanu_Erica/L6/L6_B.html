@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercițiul 3 - Lab 6</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        /* Formatare diferită pentru cele două paragrafe */
+        #p1 {
+            color: darkblue;
+            font-size: 18px;
+            background-color: #eef2f7;
+            padding: 10px;
+            cursor: pointer;
+            border-left: 4px solid darkblue;
+        }
+        #p2 {
+            color: darkgreen;
+            font-size: 16px;
+            font-style: italic;
+            background-color: #f2f9f2;
+            padding: 10px;
+            cursor: pointer;
+            border-left: 4px solid darkgreen;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="btnSchimba">Schimbă conținutul între ele</button>
+
+    <p id="p1">Ac acesta este primul paragraf (albastru). </p>
+    <p id="p2">Acesta este al doilea paragraf (verde).</p>
+
+    <script>
+        const p1 = document.getElementById('p1');
+        const p2 = document.getElementById('p2');
+        const btn = document.getElementById('btnSchimba');
+
+        // Modificarea textului la clic pe primul paragraf
+        p1.addEventListener('click', function() {
+            let textNou = prompt("Introduceți textul nou pentru primul paragraf:", p1.textContent);
+            if (textNou !== null) { // Dacă utilizatorul nu a apăsat "Cancel"
+                p1.textContent = textNou;
+            }
+        });
+
+        // Modificarea textului la clic pe al doilea paragraf
+        p2.addEventListener('click', function() {
+            let textNou = prompt("Introduceți textul nou pentru al doilea paragraf:", p2.textContent);
+            if (textNou !== null) {
+                p2.textContent = textNou;
+            }
+        });
+
+        // Schimbarea conținutului între cele două paragrafe la clic pe buton
+        btn.addEventListener('click', function() {
+            let temp = p1.textContent;
+            p1.textContent = p2.textContent;
+            p2.textContent = temp;
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: LightGoldenRodYellow; margin: 20px; }
+        h1 { color: green; }
+        .container { background-color: SeaGreen; color: white; padding: 20px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: white; color: black; }
+        th, td { border: 1px solid black; padding: 10px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        .btn-sterge { background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        form input, form button { margin: 5px; padding: 5px; }
+    </style>
+    <script>
+        function getGaraj() {
+            var garaj = localStorage.getItem("garaj");
+            if (garaj) {
+                return JSON.parse(garaj);
+            } else {
+                return []; 
+            }
+        }
+
+        function afiseazaGaraj() {
+            var garaj = getGaraj();
+            var tabelTbody = document.getElementById("corp-tabel");
+            tabelTbody.innerHTML = ""; // Golim tabelul inainte de a-l recrea
+
+            document.getElementById("numar-masini").innerText = "Numar de masini in garaj: " + garaj.length;
+
+            for (var i = 0; i < garaj.length; i++) {
+                var masina = garaj[i];
+                var rand = "<tr>" +
+                    "<td>" + masina.tip + "</td>" +
+                    "<td>" + masina.model + "</td>" +
+                    "<td>" + masina.culoare + "</td>" +
+                    "<td>" + masina.anFab + "</td>" +
+                    "<td><button class='btn-sterge' onclick='stergeMasina(" + i + ")'>Sterge</button></td>" +
+                    "</tr>";
+                tabelTbody.innerHTML += rand;
+            }
+        }
+
+        function adaugaMasina() {
+            var garaj = getGaraj();
+            
+            var masinaNoua = {
+                tip: document.getElementById("tip").value,
+                model: document.getElementById("model").value,
+                culoare: document.getElementById("culoare").value,
+                anFab: document.getElementById("an").value
+            };
+            
+            garaj.push(masinaNoua); // Adaugam obiectul in tablou
+            localStorage.setItem("garaj", JSON.stringify(garaj)); // Salvam inapoi ca string
+            
+            document.getElementById("form-garaj").reset(); // Golim formularul
+            afiseazaGaraj(); // Reafisam
+            
+            return false; // Previne reincarcarea paginii
+        }
+
+        function stergeMasina(index) {
+            var garaj = getGaraj();
+            garaj.splice(index, 1); // Scoatem 1 element de la pozitia index
+            localStorage.setItem("garaj", JSON.stringify(garaj)); // Salvam modificarea
+            afiseazaGaraj(); // Reafisam tabelul
+        }
+    </script>
+</head>
+<body onload="afiseazaGaraj()">
+
+    <h1>Administrare Garaj</h1>
+
+    <div class="container">
+        <form id="form-garaj" onsubmit="return adaugaMasina()">
+            <label for="tip">Tip:</label> <input type="text" id="tip" required>
+            <label for="model">Model:</label> <input type="text" id="model" required>
+            <label for="culoare">Culoare:</label> <input type="text" id="culoare" required>
+            <label for="an">An fabricatie:</label> <input type="number" id="an" required>
+            <button type="submit">Adauga Masina</button>
+        </form>
+        
+        <h3 id="numar-masini">Numar de masini in garaj: 0</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tip</th>
+                    <th>Model</th>
+                    <th>Culoare</th>
+                    <th>An fabricatie</th>
+                    <th>Actiune</th>
+                </tr>
+            </thead>
+            <tbody id="corp-tabel">
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

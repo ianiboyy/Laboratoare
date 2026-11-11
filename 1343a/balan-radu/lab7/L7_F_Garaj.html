@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj - tablou de obiecte</title>
+<style>
+body {font-size:150%}
+table {border-collapse: collapse; margin-top: 10px}
+th, td {border: 1px solid white; padding: 5px 15px}
+</style>
+	<script>
+function citesteGaraj(){
+	var text = localStorage.getItem("garaj");
+	if(text){
+		return JSON.parse(text);
+	}
+	return [];
+}
+function salveazaGaraj(garaj){
+	localStorage.setItem("garaj", JSON.stringify(garaj));
+}
+function afiseazaGaraj(){
+	var garaj = citesteGaraj();
+	document.getElementById("numar").innerHTML = "Masini in garaj: " + garaj.length;
+	if(garaj.length == 0){
+		document.getElementById("tabel").innerHTML = "";
+		return;
+	}
+	var html = "<tr><th>Nr.</th><th>Tip</th><th>Model</th><th>Culoare</th><th>An fabricatie</th><th></th></tr>";
+	for(var i = 0; i < garaj.length; i++){
+		html = html +
+		"<tr>" +
+		"<td>" + (i + 1) + "</td>" +
+		"<td>" + garaj[i].tip + "</td>" +
+		"<td>" + garaj[i].model + "</td>" +
+		"<td>" + garaj[i].culoare + "</td>" +
+		"<td>" + garaj[i].anFab + "</td>" +
+		"<td><button type='button' onclick='stergeMasina(" + i + ")'>Sterge</button></td>" +
+		"</tr>";
+	}
+	document.getElementById("tabel").innerHTML = html;
+}
+function adaugaMasina(){
+	var garaj = citesteGaraj();
+	garaj.push({
+		tip : document.getElementById("tip").value,
+		model : document.getElementById("model").value,
+		culoare : document.getElementById("culoare").value,
+		anFab : Number(document.getElementById("anFab").value)
+	});
+	salveazaGaraj(garaj);
+	document.getElementById("formular").reset();
+	afiseazaGaraj();
+	return false;
+}
+function stergeMasina(i){
+	var garaj = citesteGaraj();
+	garaj.splice(i, 1);
+	salveazaGaraj(garaj);
+	afiseazaGaraj();
+}
+</script>
+</head>
+<body onload="afiseazaGaraj()">
+<div style="background-color:ForestGreen;color:white;padding:10px">
+	<p>Garaj (Local Storage)</p>
+	<form id="formular" onsubmit="return adaugaMasina()">
+		<label for="tip">Tip</label> <input id="tip" required>
+		<label for="model">Model</label> <input id="model" required>
+		<label for="culoare">Culoare</label> <input id="culoare" required>
+		<label for="anFab">An fabricatie</label> <input id="anFab" type="number" min="1900" max="2100" required>
+		<button type="submit">Adauga</button>
+	</form>
+	<p id="numar"></p>
+	<table id="tabel"></table>
+	</div>
+</body>
+</html>

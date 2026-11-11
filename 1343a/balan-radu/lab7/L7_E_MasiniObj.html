@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Masini - abordare cu folosirea de obiecte"</title>
+	<script>
+function loadMjs(){
+var mJS = {tip : "Dacia", model : "Logan", culoare : "verde", anFab : 2012};
+document.getElementById("mjs").innerHTML =
+"<ul>"+
+"<li>Tip: " + mJS.tip +"</li>" +
+"<li>Model: "  + mJS.model +"</li>" +
+"<li>Culoare: "  + mJS.culoare + "</li>" +
+"<li>An fabricatie: "  + mJS.anFab + "</li>" +
+"</ul>";
+}
+function afiseaza(depozit, idSectiune){
+	if(depozit.masina){
+		var m = JSON.parse(depozit.masina);
+		document.getElementById(idSectiune).innerHTML =
+		"<ul>"+
+		"<li>Tip: " + m.tip + "</li>" +
+		"<li>Model: " + m.model + "</li>" +
+		"<li>Culoare: " + m.culoare + "</li>" +
+		"<li>An fabricatie: " + m.anFab + "</li>" +
+		"</ul>";
+	}
+	else{
+		document.getElementById(idSectiune).innerHTML = "<p>Nicio masina salvata</p>";
+	}
+}
+function sterge(depozit, idSectiune){
+	depozit.removeItem("masina");
+	afiseaza(depozit, idSectiune);
+}
+function citesteMasina(s){
+	return {
+		tip : document.getElementById("tip" + s).value,
+		model : document.getElementById("model" + s).value,
+		culoare : document.getElementById("culoare" + s).value,
+		anFab : Number(document.getElementById("anFab" + s).value)
+	};
+}
+function salveazaMls(){
+	localStorage.setItem("masina", JSON.stringify(citesteMasina("L")));
+	afiseaza(localStorage, "mls");
+	return false;
+}
+function loadMss(){
+	sessionStorage.setItem("masina", JSON.stringify(citesteMasina("S")));
+	afiseaza(sessionStorage, "mss");
+	return false;
+}
+</script>
+</head>
+<body onload="afiseaza(localStorage, 'mls'); afiseaza(sessionStorage, 'mss')">
+<div style="background-color:LimeGreen;color:white;font-size:200%" onclick="loadMjs()">
+<p>Masina JavaScript</p>
+	<div id="mjs"></div>
+	</div>
+
+<div style="background-color:ForestGreen;color:white;font-size:200%">
+	<p>Masina Local Storage</p>
+	<form onsubmit="return salveazaMls()">
+		<label for="tipL">Tip</label> <input id="tipL" required>
+		<label for="modelL">Model</label> <input id="modelL" required>
+		<label for="culoareL">Culoare</label> <input id="culoareL" required>
+		<label for="anFabL">An fabricatie</label> <input id="anFabL" type="number" min="1900" max="2100" required>
+		<button type="submit">Salveaza</button>
+		<button type="button" onclick="sterge(localStorage, 'mls')">Sterge</button>
+	</form>
+	<div id="mls"></div>
+	</div>
+
+<div style="background-color:SeaGreen;color:white;font-size:200%">
+	<p>Masina Session Storage</p>
+	<form onsubmit="return loadMss()">
+		<label for="tipS">Tip</label> <input id="tipS" required>
+		<label for="modelS">Model</label> <input id="modelS" required>
+		<label for="culoareS">Culoare</label> <input id="culoareS" required>
+		<label for="anFabS">An fabricatie</label> <input id="anFabS" type="number" min="1900" max="2100" required>
+		<button type="submit">Salveaza</button>
+		<button type="button" onclick="sterge(sessionStorage, 'mss')">Sterge</button>
+	</form>
+	<div id="mss"></div>
+	</div>
+
+</body>
+</html>

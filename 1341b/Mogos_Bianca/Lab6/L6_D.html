@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercițiul L6_D - Galerie Foto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+            text-align: center;
+        }
+
+        .galerie-container {
+            background-color: white;
+            display: inline-block;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #cbd5e0;
+            display: block;
+            margin: 0 auto 15px auto;
+        }
+
+        .contor {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2b6cb0;
+            margin-bottom: 15px;
+        }
+
+        .butoane-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #2b6cb0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2c5282;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Galerie Foto Interactivă</h2>
+
+    <div class="galerie-container">
+        <!-- Textul pentru contor (ex: Imaginea 1 din 4) -->
+        <div id="textContor" class="contor">Imaginea 1 din 4</div>
+
+        <!-- Elementul img unde se va afișa imaginea curentă -->
+        <img id="imagineGalerie" src="" alt="Imagine galerie">
+
+        <!-- Butonul Înapoi și Înainte -->
+        <div class="butoane-container">
+            <button id="btnInapoi">Înapoi</button>
+            <button id="btnInainte">Înainte</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Tabloul cu căile imaginilor din folderul Img
+        const imagini = [
+            "Img/pisici.jpg",
+            "Img/munti.jpg",
+            "Img/caini.jpg",
+            "Img/mare.jpg"
+        ];
+
+        // 2. Variabila pentru poziția curentă (indexul începe de la 0)
+        let indexCurent = 0;
+
+        // 3. Selectarea elementelor din DOM
+        const imgElement = document.getElementById('imagineGalerie');
+        const textContor = document.getElementById('textContor');
+        const btnInapoi = document.getElementById('btnInapoi');
+        const btnInainte = document.getElementById('btnInainte');
+
+        // Funcție care actualizează imaginea și textul în funcție de indexCurent
+        function actualizeazaGalerie() {
+            imgElement.src = imagini[indexCurent];
+            // Textul afișează numărul imaginii de la 1 la 4 (indexCurent + 1)
+            textContor.textContent = `Imaginea ${indexCurent + 1} din ${imagini.length}`;
+        }
+
+        // Apelăm funcția la încărcarea paginii pentru a afișa prima imagine
+        actualizeazaGalerie();
+
+        // 4. Eveniment pentru butonul „Înainte”
+        btnInainte.addEventListener('click', function() {
+            // Incrementăm indexul. Operatorul % asigură că după ultima revenim la 0
+            indexCurent = (indexCurent + 1) % imagini.length;
+            actualizeazaGalerie();
+        });
+
+        // 5. Eveniment pentru butonul „Înapoi”
+        btnInapoi.addEventListener('click', function() {
+            // Pentru a evita numerele negative la scădere, adăugăm lungimea tabloului înainte de aplicarea lui %
+            indexCurent = (indexCurent - 1 + imagini.length) % imagini.length;
+            actualizeazaGalerie();
+        });
+    </script>
+
+</body>
+</html>

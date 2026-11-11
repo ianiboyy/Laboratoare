@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj - Local Storage</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        .form-group { margin-bottom: 10px; }
+    </style>
+    <script>
+        window.onload = function() {
+            afiseazaGaraj();
+        };
+
+        function adaugaMasina(event) {
+            if (event) event.preventDefault();
+
+            var tip = document.getElementById("tip").value;
+            var model = document.getElementById("model").value;
+            var culoare = document.getElementById("culoare").value;
+            var anFab = document.getElementById("anFab").value;
+
+            var masinaNoua = {
+                tip: tip,
+                model: model,
+                culoare: culoare,
+                anFab: anFab
+            };
+
+            var garajJSON = localStorage.getItem("garaj");
+            var garaj = garajJSON ? JSON.parse(garajJSON) : [];
+
+            garaj.push(masinaNoua);
+
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            document.getElementById("formGaraj").reset();
+            afiseazaGaraj();
+
+            return false;
+        }
+
+        function stergeMasina(index) {
+            var garajJSON = localStorage.getItem("garaj");
+            if (garajJSON) {
+                var garaj = JSON.parse(garajJSON);
+                
+                garaj.splice(index, 1);
+
+                localStorage.setItem("garaj", JSON.stringify(garaj));
+
+                afiseazaGaraj();
+            }
+        }
+
+        function afiseazaGaraj() {
+            var garajJSON = localStorage.getItem("garaj");
+            var garaj = garajJSON ? JSON.parse(garajJSON) : [];
+
+            document.getElementById("numarMasini").innerHTML = "<strong>Număr de mașini în garaj: " + garaj.length + "</strong>";
+
+            var containerTabel = document.getElementById("tabelGaraj");
+
+            if (garaj.length === 0) {
+                containerTabel.innerHTML = "<p>Garajul este gol. Nu există nicio mașină salvată.</p>";
+                return;
+            }
+
+            var html = "<table>" +
+                       "<tr><th>Tip</th><th>Model</th><th>Culoare</th><th>An fabricație</th><th>Acțiune</th></tr>";
+
+            for (var i = 0; i < garaj.length; i++) {
+                html += "<tr>" +
+                        "<td>" + garaj[i].tip + "</td>" +
+                        "<td>" + garaj[i].model + "</td>" +
+                        "<td>" + garaj[i].culoare + "</td>" +
+                        "<td>" + garaj[i].anFab + "</td>" +
+                        "<td><button onclick='stergeMasina(" + i + ")'>Șterge</button></td>" +
+                        "</tr>";
+            }
+
+            html += "</table>";
+            containerTabel.innerHTML = html;
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Garaj Auto - Local Storage (Tablou de Obiecte)</h2>
+
+    <form id="formGaraj" onsubmit="return adaugaMasina(event);">
+        <div class="form-group">
+            <label for="tip">Tip:</label><br>
+            <input type="text" id="tip" required>
+        </div>
+        <div class="form-group">
+            <label for="model">Model:</label><br>
+            <input type="text" id="model" required>
+        </div>
+        <div class="form-group">
+            <label for="culoare">Culoare:</label><br>
+            <input type="text" id="culoare" required>
+        </div>
+        <div class="form-group">
+            <label for="anFab">An fabricație:</label><br>
+            <input type="number" id="anFab" required>
+        </div>
+        <button type="submit">Adaugă în garaj</button>
+    </form>
+
+    <br>
+    <div id="numarMasini"></div>
+
+    <br>
+    <div id="tabelGaraj"></div>
+
+    <br>
+    <p><a href="index.html">Înapoi la pagina principală</a></p>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Garaj - Gestionare Tablou de Obiecte în Local Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        form div {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .info-garaj {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+    <script>
+        
+        function init() {
+            afiseazaGaraj();
+        }
+
+       
+        function afiseazaGaraj() {
+           
+            var garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+            
+            var tabelHtml = "<table><tr><th>Tip</th><th>Model</th><th>Culoare</th><th>An Fabricație</th><th>Acțiune</th></tr>";
+            
+            if (garaj.length === 0) {
+                tabelHtml += "<tr><td colspan='5' style='text-align: center;'>Garajul este gol</td></tr>";
+            } else {
+                for (var i = 0; i < garaj.length; i++) {
+                    tabelHtml += "<tr>" +
+                        "<td>" + garaj[i].tip + "</td>" +
+                        "<td>" + garaj[i].model + "</td>" +
+                        "<td>" + garaj[i].culoare + "</td>" +
+                        "<td>" + garaj[i].anFab + "</td>" +
+                        "<td><button onclick='stergeMasina(" + i + ")'>Șterge</button></td>" +
+                        "</tr>";
+                }
+            }
+            tabelHtml += "</table>";
+
+           
+            document.getElementById("tabelGaraj").innerHTML = tabelHtml;
+
+           
+            document.getElementById("numarMasini").innerText = "Număr total de mașini în garaj: " + garaj.length;
+        }
+
+        
+        function adaugaMasina() {
+            var tip = document.getElementById("tip").value;
+            var model = document.getElementById("model").value;
+            var culoare = document.getElementById("culoare").value;
+            var anFab = Number(document.getElementById("anFab").value);
+
+          
+            var masinaNoua = {
+                tip: tip,
+                model: model,
+                culoare: culoare,
+                anFab: anFab
+            };
+
+            
+            var garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+
+         
+            garaj.push(masinaNoua);
+
+            
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            
+            document.getElementById("formGaraj").reset();
+
+          
+            afiseazaGaraj();
+
+            return false; 
+        }
+
+        
+        function stergeMasina(index) {
+            var garaj = JSON.parse(localStorage.getItem("garaj")) || [];
+
+            
+            garaj.splice(index, 1);
+
+            
+            localStorage.setItem("garaj", JSON.stringify(garaj));
+
+            
+            afiseazaGaraj();
+        }
+    </script>
+</head>
+<body onload="init()">
+
+    <div class="container">
+        <h2>Gestionare Garaj Auto</h2>
+        
+      
+        <form id="formGaraj" onsubmit="return adaugaMasina()">
+            <div>
+                <label for="tip">Tip:</label>
+                <input type="text" id="tip" required>
+            </div>
+            <div>
+                <label for="model">Model:</label>
+                <input type="text" id="model" required>
+            </div>
+            <div>
+                <label for="culoare">Culoare:</label>
+                <input type="text" id="culoare" required>
+            </div>
+            <div>
+                <label for="anFas">An fabricație:</label>
+                <input type="number" id="anFab" required>
+            </div>
+            <div>
+                <button type="submit">Adaugă în garaj</button>
+            </div>
+        </form>
+
+       
+        <div class="info-garaj" id="numarMasini"></div>
+
+      
+        <div id="tabelGaraj"></div>
+    </div>
+
+</body>
+</html>
