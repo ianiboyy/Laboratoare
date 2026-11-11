@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Document creat cu JavaScript</title>
+</head>
+<body>
+    <script>
+        var title = document.createElement("h1");
+        title.textContent = "Titlu creat din JavaScript";
+        title.style.color = "blue";
+        title.style.fontSize = "48px";
+        title.style.margin = "20px 0";
+
+        var par = document.createElement("p");
+        par.innerHTML = "Paragraf<br>cu<br>3 linii";
+        par.style.backgroundColor = "yellow";
+        par.style.padding = "20px";
+        par.style.width = "400px";
+        par.style.lineHeight = "1.6";
+        par.style.display = "block";
+
+        document.body.appendChild(title);
+        document.body.appendChild(par);
+    </script>
+</body>
+</html>

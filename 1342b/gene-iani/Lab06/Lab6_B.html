@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Modificari cu Ex3</title>
+    <script>
+    function modifica(p){
+    var text = prompt("Introduceți noul text al paragrafului:", p.innerHTML);
+    if (text !== null && text !== "") {
+        p.innerHTML = text;
+    }
+}
+
+function switcher(p) {
+    var text = p[0].innerHTML
+    p[0].innerHTML = p[1].innerHTML
+    p[1].innerHTML = text
+}
+    </script>
+</head>
+<body>
+
+<button id="butt"; type="button"; onclick="switcher(document.getElementsByTagName('p'))">buton</button>
+
+<p class="demo"; onclick="modifica(this)">Primul paragraf de modificat, click pe el</p>
+<p class="demo2">Al doilea paragraf de modificat</p>
+</body>
+
+
+</html> 

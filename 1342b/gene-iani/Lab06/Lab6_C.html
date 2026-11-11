@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 6</title>
+    <script>
+        function schimbaCuloarea(p){
+            var culoare = prompt("Ce culoare vrei?:", p.style.color)
+            if (CSS.supports("color", culoare) == true)
+                p.style.color=culoare
+        }
+
+        function schimbaCuloareaFundal(p){
+            var culoare = prompt("Ce culoare vrei?:", p.style.backgroundColor)
+            if (CSS.supports("color", culoare) == true)
+                p.style.backgroundColor=culoare
+        }
+    </script>
+</head>
+
+<body>
+    <h1 onclick="schimbaCuloarea(this)">Acesta este un header h1</h1>
+    <p onclick="schimbaCuloareaFundal(this)">test de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuritest de cateva randuri</p>
+</body>
+
+</html>
